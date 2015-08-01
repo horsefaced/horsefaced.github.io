@@ -1,2 +1,7 @@
 baseurl: ""
 published: true
+host: 0.0.0.0
+
+blog:
+  name: 大道废
+  source: https://github.com/horsefaced

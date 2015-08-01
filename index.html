@@ -1,11 +1,14 @@
 ---
 layout: default
 title: 首页
-blogname: 大道废
 ---
 
 <ul>
-    {% for post in site.posts %}
-    <li>{{ post.date | date_to_string }}<a href="{{ site.baseurl }}{{ post.url }}">{{post.title}}</a></li>
-    {% endfor %}
+{% for post in site.posts %}
+<il>
+    <a href="{{ site.baseurl }}{{ post.url }}" class="container">
+        <h4>{{ post.title }}</h4>{{ post.date | date: "%Y-%m-%d" }}
+    </a>
+</il>
+{% endfor %}
 </ul>

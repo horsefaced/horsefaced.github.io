@@ -8,14 +8,17 @@
         <title>{{ page.title }}</title>
     </head>
     <body>
-        <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/">{{ page.blogname }}</a>
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container">
+                <a class="navbar-brand" style="font-size:25px" href="/">{{ site.blog.name }}</a>
+                <a class="pull-right navbar-brand" href="{{ site.blog.source }}">GitHub</a>
+                <span class="navbar-brand hidden-xs">{{ page.title }}</span>
             </div>
-        </div>
         </nav>
-        <div class="container">
+        <div class="container center-block">
             {{ content }}
         </div>
     </body>
 </html>
+
+
