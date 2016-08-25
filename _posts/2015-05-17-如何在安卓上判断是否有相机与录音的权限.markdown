@@ -8,6 +8,7 @@ Android本身有提供`checkPermission(String, String)`这一系列的函数来�
 
 本人在项目中还没有用到通讯录权限，但有用到相机与录音，于是本文就集中于相机与录音的权限判断上了。其实代码很简单，具体做法就是在实际操作前先操作一遍录音与相机，看是否能得到结果，如果不能就说明对应的权限没有开放，以下为代码：
 
+	{% highlight java %}
     public boolean hasPermission(String permission) {
 		switch (permission) {
 		case Manifest.permission.CAMERA:
@@ -44,5 +45,6 @@ Android本身有提供`checkPermission(String, String)`这一系列的函数来�
 		}
 
 	}
-
+	{% endhighlight %}
+	
 这里就只实现了相机与录音两个权限的判断，其它的判断等到要使用时再更新。
