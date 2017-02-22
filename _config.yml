@@ -16,7 +16,7 @@
 title: 大道废
 email: cs1125@163.com
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://example.com" # the base hostname & protocol for your site
+url: "http://horsefaced.github.io"
 exclude: ["Gemfile", "Gemfile.lock"]
 
 
