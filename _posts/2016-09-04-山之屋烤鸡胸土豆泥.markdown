@@ -3,4 +3,7 @@ layout: post
 title: 山之屋烤鸡胸土豆泥
 ---
 
-![本体](/images/mh1/full.jpg)
+
+
+![本体](../images/mh1/full.jpg)
+
