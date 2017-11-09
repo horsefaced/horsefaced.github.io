@@ -531,16 +531,16 @@ JNI方法：static jboolean android<sub>util</sub><sub>Log</sub><sub>isLoggable<
 </tr>
 
 <tr>
-<td class="left">Get<type>Field</type></td>
-<td class="left">Call<type>Method</type></td>
-<td class="left">GetStatic<type>Field</type></td>
-<td class="left">CallStatic<type>Method</type></td>
+<td class="left">Get&lt;Type&gt;Field</td>
+<td class="left">Call&lt;Type&gt;Method</td>
+<td class="left">GetStatic&lt;Type&gt;Field</td>
+<td class="left">CallStatic&lt;Type&gt;Method</td>
 </tr>
 
 <tr>
-<td class="left">Set<type>Field</type></td>
-<td class="left">CallNonvirtual<type>Method</type></td>
-<td class="left">SetStatic<type>Field</type></td>
+<td class="left">Set&lt;Type&gt;Field</td>
+<td class="left">CallNonvirtual&lt;Type&gt;Method</td>
+<td class="left">SetStatic&lt;Type&gt;Field</td>
 <td class="left">&#xa0;</td>
 </tr>
 </tbody>
@@ -596,7 +596,7 @@ JNI方法：static jboolean android<sub>util</sub><sub>Log</sub><sub>isLoggable<
 </table>
 
 <p>
-if (env->isSameObject(weak<sub>ref</sub>, NULL) == JNI<sub>TRUE</sub>) 那么引用被释放
+if (env-&gt;isSameObject(weak<sub>ref</sub>, NULL) == JNI<sub>TRUE</sub>) 那么引用被释放
 </p>
 
 <p>
@@ -731,10 +731,10 @@ if (env->isSameObject(weak<sub>ref</sub>, NULL) == JNI<sub>TRUE</sub>) 那么引
 <h4 id="sec-1-2-3">内核启动阶段</h4>
 <div class="outline-text-4" id="text-1-2-3">
 <ol class="org-ol">
-<li>kernel/init/main.c -> start<sub>kernel函数</sub>
+<li>kernel/init/main.c -&gt; start<sub>kernel函数</sub>
 </li>
-<li>rest<sub>init</sub> -> kernel<sub>init与kthreadd进程</sub>
-   kernel<sub>init</sub> -> init<sub>post</sub> -> /init 程序，或：/sbin/init, /etc/init, /bin/init, /bin/sh -> run<sub>init</sub><sub>process</sub>
+<li>rest<sub>init</sub> -&gt; kernel<sub>init与kthreadd进程</sub>
+   kernel<sub>init</sub> -&gt; init<sub>post</sub> -&gt; /init 程序，或：/sbin/init, /etc/init, /bin/init, /bin/sh -&gt; run<sub>init</sub><sub>process</sub>
 </li>
 </ol>
 </div>
@@ -748,8 +748,8 @@ if (env->isSameObject(weak<sub>ref</sub>, NULL) == JNI<sub>TRUE</sub>) 那么引
 </li>
 <li>解析init.rc初始化文件
 </li>
-<li>触发build in的Action -> queue<sub>builtin</sub><sub>action</sub>, 这些action并没有在init.rc或者init.<hardware>.rc中配置
-</hardware></li>
+<li>触发build in的Action -&gt; queue<sub>builtin</sub><sub>action</sub>, 这些action并没有在init.rc或者init.&lt;hardware&gt;.rc中配置
+</li>
 <li>重新启动异常退出的Service
 </li>
 <li>监听来自属性服务property service
@@ -770,15 +770,15 @@ if (env->isSameObject(weak<sub>ref</sub>, NULL) == JNI<sub>TRUE</sub>) 那么引
 </li>
 <li>基本关键字：on, service
 </li>
-<li>on -> Action
+<li>on -&gt; Action
 </li>
-<li>service -> Service，Option指定何时，如何启动Service程序。Service由服务名，服务对应命令路径，命令参数组成
+<li>service -&gt; Service，Option指定何时，如何启动Service程序。Service由服务名，服务对应命令路径，命令参数组成
 </li>
-<li>Command -> Linux命令或者方法
+<li>Command -&gt; Linux命令或者方法
 </li>
-<li>Trigger -> 自定义的触发条件
+<li>Trigger -&gt; 自定义的触发条件
 </li>
-<li>Action -> on声明，Trigger触发的Command序列
+<li>Action -&gt; on声明，Trigger触发的Command序列
 </li>
 </ul>
 
@@ -804,22 +804,22 @@ if (env->isSameObject(weak<sub>ref</sub>, NULL) == JNI<sub>TRUE</sub>) 那么引
 </tr>
 
 <tr>
-<td class="left">property:<property name="">=<property value=""></property></property></td>
+<td class="left">property:&lt;property name&gt;=&lt;property value&gt;</td>
 <td class="left">属性值改变为指定值时</td>
 </tr>
 
 <tr>
-<td class="left">device-added-<path></path></td>
+<td class="left">device-added-&lt;path&gt;</td>
 <td class="left">添加设备时触发</td>
 </tr>
 
 <tr>
-<td class="left">device-removed-<path></path></td>
+<td class="left">device-removed-&lt;path&gt;</td>
 <td class="left">移除设备时触发</td>
 </tr>
 
 <tr>
-<td class="left">service-exited-<name></name></td>
+<td class="left">service-exited-&lt;name&gt;</td>
 <td class="left">指定服务存在时</td>
 </tr>
 </tbody>
@@ -842,77 +842,77 @@ if (env->isSameObject(weak<sub>ref</sub>, NULL) == JNI<sub>TRUE</sub>) 那么引
 </thead>
 <tbody>
 <tr>
-<td class="left">exec <path></path> [<argument>*]</argument></td>
-<td class="left">执行路径为<path></path>的程序，参数列表为<argument>*</argument></td>
+<td class="left">exec &lt;path&gt; [&lt;argument&gt;*]</td>
+<td class="left">执行路径为&lt;path&gt;的程序，参数列表为&lt;argument&gt;*</td>
 </tr>
 
 <tr>
-<td class="left">export <name> <value></value></name></td>
+<td class="left">export &lt;name&gt; &lt;value&gt;</td>
 <td class="left">设置系统全局环境变量</td>
 </tr>
 
 <tr>
-<td class="left">ifup <interface></interface></td>
-<td class="left">使用ifup启动名为<interface>的网络接口</interface></td>
+<td class="left">ifup &lt;interface&gt;</td>
+<td class="left">使用ifup启动名为&lt;interface&gt;的网络接口</td>
 </tr>
 
 <tr>
-<td class="left">import <filename></filename></td>
+<td class="left">import &lt;filename&gt;</td>
 <td class="left">解析导入的init配置文件，扩展当前的配置</td>
 </tr>
 
 <tr>
-<td class="left">hostname <name></name></td>
+<td class="left">hostname &lt;name&gt;</td>
 <td class="left">设置主机名</td>
 </tr>
 
 <tr>
-<td class="left">chdir <directory></directory></td>
+<td class="left">chdir &lt;directory&gt;</td>
 <td class="left">切换工作目录</td>
 </tr>
 
 <tr>
-<td class="left">chmod <octal-mode> <path></path></octal-mode></td>
+<td class="left">chmod &lt;octal-mode&gt; &lt;path&gt;</td>
 <td class="left">修改文件访问权限</td>
 </tr>
 
 <tr>
-<td class="left">chown <owner> <group> <path></path></group></owner></td>
+<td class="left">chown &lt;owner&gt; &lt;group&gt; &lt;path&gt;</td>
 <td class="left">修改文件所有者和组</td>
 </tr>
 
 <tr>
-<td class="left">chroot <directory></directory></td>
+<td class="left">chroot &lt;directory&gt;</td>
 <td class="left">改变程序执行所参考的根目录</td>
 </tr>
 
 <tr>
-<td class="left">class<sub>start</sub> <serviceclass></serviceclass></td>
+<td class="left">class<sub>start</sub> &lt;serviceclass&gt;</td>
 <td class="left">启动指定类别的所有服务</td>
 </tr>
 
 <tr>
-<td class="left">class<sub>stop</sub> <serviceclass></serviceclass></td>
+<td class="left">class<sub>stop</sub> &lt;serviceclass&gt;</td>
 <td class="left">停止指定类别的所有服务</td>
 </tr>
 
 <tr>
-<td class="left">domainname <name></name></td>
+<td class="left">domainname &lt;name&gt;</td>
 <td class="left">设置域名</td>
 </tr>
 
 <tr>
-<td class="left">insmod <path></path></td>
-<td class="left">加载路径为<path></path>的内核模块</td>
+<td class="left">insmod &lt;path&gt;</td>
+<td class="left">加载路径为&lt;path&gt;的内核模块</td>
 </tr>
 
 <tr>
-<td class="left">mkdir <path></path> [mode] [owner] [group]</td>
-<td class="left">创建路径为<path></path>的目录</td>
+<td class="left">mkdir &lt;path&gt; [mode] [owner] [group]</td>
+<td class="left">创建路径为&lt;path&gt;的目录</td>
 </tr>
 
 <tr>
-<td class="left">mount <type> <device> <dir> [<mountoption>*]</mountoption></dir></device></type></td>
+<td class="left">mount &lt;type&gt; &lt;device&gt; &lt;dir&gt; [&lt;mountoption&gt;*]</td>
 <td class="left">挂载设备</td>
 </tr>
 
@@ -922,43 +922,43 @@ if (env->isSameObject(weak<sub>ref</sub>, NULL) == JNI<sub>TRUE</sub>) 那么引
 </tr>
 
 <tr>
-<td class="left">setprop <name> <value></value></name></td>
+<td class="left">setprop &lt;name&gt; &lt;value&gt;</td>
 <td class="left">设置系统属性</td>
 </tr>
 
 <tr>
-<td class="left">setrlimit <resource> <cur> <max></max></cur></resource></td>
+<td class="left">setrlimit &lt;resource&gt; &lt;cur&gt; &lt;max&gt;</td>
 <td class="left">设置资源限制，resource是当前要限制的资源，cur是软限制，max是硬限制</td>
 </tr>
 
 <tr>
-<td class="left">start <service></service></td>
+<td class="left">start &lt;service&gt;</td>
 <td class="left">启动指定服务</td>
 </tr>
 
 <tr>
-<td class="left">stop <service></service></td>
+<td class="left">stop &lt;service&gt;</td>
 <td class="left">停止指定服务</td>
 </tr>
 
 <tr>
-<td class="left">symlink <target> <path></path></target></td>
-<td class="left">创建指向<path></path>的软连接<target></target></td>
+<td class="left">symlink &lt;target&gt; &lt;path&gt;</td>
+<td class="left">创建指向&lt;path&gt;的软连接&lt;target&gt;</td>
 </tr>
 
 <tr>
-<td class="left">sysclktz <mins<sub>west<sub>of</sub><sub>gmt</sub>></mins<sub></td>
+<td class="left">sysclktz &lt;mins<sub>west</sub><sub>of</sub><sub>gmt</sub>&gt;</td>
 <td class="left">设置系统时钟基准</td>
 </tr>
 
 <tr>
-<td class="left">trigger <event></event></td>
+<td class="left">trigger &lt;event&gt;</td>
 <td class="left">触发一个事件</td>
 </tr>
 
 <tr>
-<td class="left">write <path></path> <string> [<string>*]</string></string></td>
-<td class="left">打开路径为<path></path>的一个文件，并写入一个或多个字符串</td>
+<td class="left">write &lt;path&gt; &lt;string&gt; [&lt;string&gt;*]</td>
+<td class="left">打开路径为&lt;path&gt;的一个文件，并写入一个或多个字符串</td>
 </tr>
 </tbody>
 </table>
@@ -990,14 +990,14 @@ if (env->isSameObject(weak<sub>ref</sub>, NULL) == JNI<sub>TRUE</sub>) 那么引
 </tr>
 
 <tr>
-<td class="left">setenv <name> <value></value></name></td>
+<td class="left">setenv &lt;name&gt; &lt;value&gt;</td>
 <td class="left">为服务设置环境变量</td>
 </tr>
 </tbody>
 <tbody>
 <tr>
-<td class="left">socket <name> <type> <perm> [<user> [<group>]]</group></user></perm></type></name></td>
-<td class="left">创建一个名为/dev/socket/<name>的socket，然后把它的文件描述符传给启动程序。</name></td>
+<td class="left">socket &lt;name&gt; &lt;type&gt; &lt;perm&gt; [&lt;user&gt; [&lt;group&gt;]]</td>
+<td class="left">创建一个名为/dev/socket/&lt;name&gt;的socket，然后把它的文件描述符传给启动程序。</td>
 </tr>
 
 <tr>
@@ -1012,13 +1012,13 @@ if (env->isSameObject(weak<sub>ref</sub>, NULL) == JNI<sub>TRUE</sub>) 那么引
 </tbody>
 <tbody>
 <tr>
-<td class="left">user <username></username></td>
-<td class="left">执行服务前切换到用户<username>，此选项默认是root</username></td>
+<td class="left">user &lt;username&gt;</td>
+<td class="left">执行服务前切换到用户&lt;username&gt;，此选项默认是root</td>
 </tr>
 
 <tr>
-<td class="left">group <groupname> [<groupname>*]</groupname></groupname></td>
-<td class="left">执行服务前切换到组<groupname>, 默认是root</groupname></td>
+<td class="left">group &lt;groupname&gt; [&lt;groupname&gt;*]</td>
+<td class="left">执行服务前切换到组&lt;groupname&gt;, 默认是root</td>
 </tr>
 
 <tr>
@@ -1027,12 +1027,12 @@ if (env->isSameObject(weak<sub>ref</sub>, NULL) == JNI<sub>TRUE</sub>) 那么引
 </tr>
 
 <tr>
-<td class="left">class <name></name></td>
+<td class="left">class &lt;name&gt;</td>
 <td class="left">为服务指定一个类别，默认为default, 同一类别的服务必须一起启动和停止</td>
 </tr>
 
 <tr>
-<td class="left">onrestart <command></td>
+<td class="left">onrestart &lt;Command&gt;</td>
 <td class="left">当服务重启时，执行一个Command</td>
 </tr>
 </tbody>
@@ -1047,12 +1047,12 @@ if (env->isSameObject(weak<sub>ref</sub>, NULL) == JNI<sub>TRUE</sub>) 那么引
 <li>init.c中的execute<sub>one</sub><sub>command</sub>, service<sub>start</sub>
 </li>
 
-<li>init.c -> main -> action<sub>for</sub><sub>each</sub><sub>trigger</sub> -> builtins.c中的do<sub>class</sub><sub>start</sub> -> service<sub>start</sub><sub>if</sub><sub>not</sub><sub>disabled</sub>
+<li>init.c -&gt; main -&gt; action<sub>for</sub><sub>each</sub><sub>trigger</sub> -&gt; builtins.c中的do<sub>class</sub><sub>start</sub> -&gt; service<sub>start</sub><sub>if</sub><sub>not</sub><sub>disabled</sub>
 </li>
 
-<li>init.c -> main -> property<sub>init</sub>() 属性服务内存共享区分配 -> property<sub>load</sub><sub>boot</sub><sub>defaults加载</sub>/default.prop文件中的属性 -> property<sub>service</sub><sub>init</sub> -> queue<sub>property</sub><sub>triggers</sub>
+<li>init.c -&gt; main -&gt; property<sub>init</sub>() 属性服务内存共享区分配 -&gt; property<sub>load</sub><sub>boot</sub><sub>defaults加载</sub>/default.prop文件中的属性 -&gt; property<sub>service</sub><sub>init</sub> -&gt; queue<sub>property</sub><sub>triggers</sub>
 <ol class="org-ol">
-<li>property<sub>service</sub><sub>init</sub><sub>action</sub> -> start<sub>property</sub><sub>service</sub> 加载属性文件，创建Socket接收客户端请求
+<li>property<sub>service</sub><sub>init</sub><sub>action</sub> -&gt; start<sub>property</sub><sub>service</sub> 加载属性文件，创建Socket接收客户端请求
 </li>
 <li>queue<sub>property</sub><sub>triggers</sub><sub>action</sub> 触发所有以property: 开头的Action
 </li>
@@ -1068,11 +1068,11 @@ if (env->isSameObject(weak<sub>ref</sub>, NULL) == JNI<sub>TRUE</sub>) 那么引
 <div class="outline-text-4" id="text-1-2-7">
 </div><ul class="org-ul"><li><a id="sec-1-2-7-1" name="sec-1-2-7-1"></a>启动zygote虚拟机，通过属性系统获取虚拟机配置信息，调用JNI<sub>CreateJavaVM方法创建虚拟机</sub><br></li>
 <li><a id="sec-1-2-7-2" name="sec-1-2-7-2"></a>注册JNI方法，register<sub>jni</sub><sub>procs</sub><br></li>
-<li><a id="sec-1-2-7-3" name="sec-1-2-7-3"></a>AndroidRuntime：start -> CallStaticVoidMethod -> ZygoteInit的main 进入Java环境<br><div class="outline-text-5" id="text-1-2-7-3">
+<li><a id="sec-1-2-7-3" name="sec-1-2-7-3"></a>AndroidRuntime：start -&gt; CallStaticVoidMethod -&gt; ZygoteInit的main 进入Java环境<br><div class="outline-text-5" id="text-1-2-7-3">
 <ol class="org-ol">
-<li>注册zygote的Socket, ZygoteInit -> registerZygoteSocket
+<li>注册zygote的Socket, ZygoteInit -&gt; registerZygoteSocket
 </li>
-<li>预加载Class资源和Resource资源, preload -> preLoadClass, preLoadResources
+<li>预加载Class资源和Resource资源, preload -&gt; preLoadClass, preLoadResources
 <ol class="org-ol">
 <li>preLoadClass 加载 preloaded-classes 文件中指定的类
 </li>
@@ -1080,11 +1080,11 @@ if (env->isSameObject(weak<sub>ref</sub>, NULL) == JNI<sub>TRUE</sub>) 那么引
 </li>
 </ol>
 </li>
-<li>ZygoteInit -> startSystemServer 启动system<sub>serve进程</sub>
+<li>ZygoteInit -&gt; startSystemServer 启动system<sub>serve进程</sub>
 <ol class="org-ol">
-<li>通过forkSystemServer -> system<sub>server子进程</sub>
+<li>通过forkSystemServer -&gt; system<sub>server子进程</sub>
 </li>
-<li>system<sub>server子进程</sub> -> handleSystemServerProcess -> RuntimeInit.zygoteInit
+<li>system<sub>server子进程</sub> -&gt; handleSystemServerProcess -&gt; RuntimeInit.zygoteInit
 <ol class="org-ol">
 <li>redirectLogStream
 </li>
@@ -1092,25 +1092,25 @@ if (env->isSameObject(weak<sub>ref</sub>, NULL) == JNI<sub>TRUE</sub>) 那么引
 </li>
 <li>nativeZygoteInit 开启Binder通信
 </li>
-<li>invodeStaticMain -> com.android.server.SystemServer.main -> throw new ZygoteInit.MethodAndArgsCaller
+<li>invodeStaticMain -&gt; com.android.server.SystemServer.main -&gt; throw new ZygoteInit.MethodAndArgsCaller
 </li>
 </ol>
 </li>
 </ol>
 </li>
-<li>ZygoteInit.main -> catch(ZygoteInit.MethodAndArgsCaller) -> 执行MethodAndArgsCaller的run方法
+<li>ZygoteInit.main -&gt; catch(ZygoteInit.MethodAndArgsCaller) -&gt; 执行MethodAndArgsCaller的run方法
 <ol class="org-ol">
-<li>init1 -> 启动Native System Service
+<li>init1 -&gt; 启动Native System Service
 <ul class="org-ul">
 <li>SurfaceFlinger, SensorService
 </li>
-<li>AndroidRuntime -> SystemServer.init2
+<li>AndroidRuntime -&gt; SystemServer.init2
 </li>
 <li>初始化Binder通信
 </li>
 </ul>
 </li>
-<li>init2 -> Java System Service
+<li>init2 -&gt; Java System Service
 <ul class="org-ul">
 <li>Looper.prepare()
 </li>
@@ -1131,7 +1131,7 @@ if (env->isSameObject(weak<sub>ref</sub>, NULL) == JNI<sub>TRUE</sub>) 那么引
 </li>
 <li><a id="sec-1-2-7-4" name="sec-1-2-7-4"></a>处理Home启动请求<br><div class="outline-text-5" id="text-1-2-7-4">
 <p>
-ActivityManagerService.systemReady -> ActivityStack.resumeTopActivityLocked -> ActivityManagerService.startHomeActivityLocked -> ActivityStack.startActivityLocked -> ActivityStack.startActivityUncheckedLocked -> other startActivityLocked -> other resumeTopActivityLocked -> startSpecificActivityLocked -> startProcessLocked -> Process.start("android.app.ActivityThread") -> startViaZygote -> zygoteSendArgsAndGetResult -> Socket -> zygote -> runOnce -> handleChildProc -> android.app.ActivityThread.main
+ActivityManagerService.systemReady -&gt; ActivityStack.resumeTopActivityLocked -&gt; ActivityManagerService.startHomeActivityLocked -&gt; ActivityStack.startActivityLocked -&gt; ActivityStack.startActivityUncheckedLocked -&gt; other startActivityLocked -&gt; other resumeTopActivityLocked -&gt; startSpecificActivityLocked -&gt; startProcessLocked -&gt; Process.start("android.app.ActivityThread") -&gt; startViaZygote -&gt; zygoteSendArgsAndGetResult -&gt; Socket -&gt; zygote -&gt; runOnce -&gt; handleChildProc -&gt; android.app.ActivityThread.main
 </p>
 </div>
 </li></ul>
@@ -1173,7 +1173,7 @@ ActivityManagerService.systemReady -> ActivityStack.resumeTopActivityLocked -> A
 <li><a id="sec-1-3-0-6" name="sec-1-3-0-6"></a>Binder在Java层中的实现<br></li>
 <li><a id="sec-1-3-0-7" name="sec-1-3-0-7"></a>Java系统服务注册过程<br><div class="outline-text-5" id="text-1-3-0-7">
 <p>
-BinderInternal.getContextObject -> IBinder -> ServiceManagerNative.asInteface -> sServiceManager -> addService
+BinderInternal.getContextObject -&gt; IBinder -&gt; ServiceManagerNative.asInteface -&gt; sServiceManager -&gt; addService
 </p>
 
 <ol class="org-ol">
@@ -1210,17 +1210,17 @@ BinderInternal.getContextObject -> IBinder -> ServiceManagerNative.asInteface ->
 <h3 id="sec-1-4">消息通信篇</h3>
 <div class="outline-text-3" id="text-1-4">
 <ol class="org-ol">
-<li>Handler.post(Runnable r) -> Handler.sendMessageDelayed(getPostMessage(r), 0) -> Message m.callback = r
+<li>Handler.post(Runnable r) -&gt; Handler.sendMessageDelayed(getPostMessage(r), 0) -&gt; Message m.callback = r
 </li>
-<li>Handler.dispatchMessage -> msg.callback != null -> callback
--> msg.handleMessage != null -> callback.handleMessage
--> handleMessage
+<li>Handler.dispatchMessage -&gt; msg.callback != null -&gt; callback
+-&gt; msg.handleMessage != null -&gt; callback.handleMessage
+-&gt; handleMessage
 </li>
 <li>MessageQueue.IdleHandler
 </li>
 <li>Message.recycle
 </li>
-<li>AsyncTask.execute -> executeOnExecutor(SerialExecutor, params) -> SerialExecutor.execute(mFuture)
+<li>AsyncTask.execute -&gt; executeOnExecutor(SerialExecutor, params) -&gt; SerialExecutor.execute(mFuture)
 <ul class="org-ul">
 <li>会通过一个ThreadPoolExecutor来执行线程
 </li>
@@ -1253,13 +1253,13 @@ BinderInternal.getContextObject -> IBinder -> ServiceManagerNative.asInteface ->
 <h4 id="sec-1-5-1">结构</h4>
 <div class="outline-text-4" id="text-1-5-1">
 <ul class="org-ul">
-<li>adb push -> adb install -r -l -s -> adb uninstall
+<li>adb push -&gt; adb install -r -l -s -&gt; adb uninstall
 </li>
 
 <li>Google Market、PackageInstaller.apk、第三方安装界面
 </li>
 
-<li>PackageManager及其子类、adb与pm命令 -> binder通信 -> PackageManagerService方法
+<li>PackageManager及其子类、adb与pm命令 -&gt; binder通信 -&gt; PackageManagerService方法
 </li>
 
 <li>PackageManagerService及其相关类 Setting、Installer、FileObserver、DefaultContainerService
@@ -1272,7 +1272,7 @@ BinderInternal.getContextObject -> IBinder -> ServiceManagerNative.asInteface ->
 <h4 id="sec-1-5-2">启动</h4>
 <div class="outline-text-4" id="text-1-5-2">
 <ol class="org-ol">
-<li>SystemServer.Init2() -> ServerThread.run() -> PackageManagerService.main()
+<li>SystemServer.Init2() -&gt; ServerThread.run() -&gt; PackageManagerService.main()
 </li>
 <li>PackageManagerService pms = new PackageManagerService(context, factoryTest, onlyCore)
 </li>
@@ -1297,23 +1297,23 @@ BinderInternal.getContextObject -> IBinder -> ServiceManagerNative.asInteface ->
 </ol>
 
 <p>
-uid >= FIRST<sub>APPLICATION</sub><sub>UID</sub> 或者 uid < FIRST<sub>APPLICATION</sub><sub>UID，FIST</sub><sub>APPLICATION</sub><sub>UID</sub> < 10000为系统程序UID。
+uid &gt;= FIRST<sub>APPLICATION</sub><sub>UID</sub> 或者 uid &lt; FIRST<sub>APPLICATION</sub><sub>UID，FIST</sub><sub>APPLICATION</sub><sub>UID</sub> &lt; 10000为系统程序UID。
 </p>
 </div>
 
-<ul class="org-ul"><li><a id="sec-1-5-2-1" name="sec-1-5-2-1"></a><permission><br><div class="outline-text-5" id="text-1-5-2-1">
+<ul class="org-ul"><li><a id="sec-1-5-2-1" name="sec-1-5-2-1"></a>&lt;permission&gt;<br><div class="outline-text-5" id="text-1-5-2-1">
 <ul class="org-ul">
-<li><group>用于为指定的组ID分配权限
-</group></li>
-<li><assign<sub>permission>用于为指定的用户ID分配指定的权限
-</assign<sub></li>
-<li><library>指定的系统扩展库
-</library></li>
+<li>&lt;group&gt;用于为指定的组ID分配权限
+</li>
+<li>&lt;assign<sub>permission</sub>&gt;用于为指定的用户ID分配指定的权限
+</li>
+<li>&lt;library&gt;指定的系统扩展库
+</li>
 </ul>
 </div>
-</permission></li>
+</li>
 
-<li><a id="sec-1-5-2-2" name="sec-1-5-2-2"></a><feature><br><div class="outline-text-5" id="text-1-5-2-2">
+<li><a id="sec-1-5-2-2" name="sec-1-5-2-2"></a>&lt;feature&gt;<br><div class="outline-text-5" id="text-1-5-2-2">
 <ul class="org-ul">
 <li>Hardware feature 指定当前设备支持的硬件特性：Audio、Bluetooth、Camera、Location、Microphone、NFC、Sensors、Screen、Telephony、Touchscreen、USB、WIFI。
 </li>
@@ -1325,7 +1325,7 @@ uid >= FIRST<sub>APPLICATION</sub><sub>UID</sub> 或者 uid < FIRST<sub>APPLICAT
 PackageManager的hasSystemFeature, getSystemAvailableFeatures
 </p>
 </div>
-</feature></li>
+</li>
 
 <li><a id="sec-1-5-2-3" name="sec-1-5-2-3"></a>FileObserver监控<br><div class="outline-text-5" id="text-1-5-2-3">
 <ul class="org-ul">
@@ -1435,7 +1435,7 @@ Application：一个可以维护全局的应用程序状态的基类
 </li>
 <li>installSystemProviders
 </li>
-<li>查询、安装Content Provider -> publishContentProvider
+<li>查询、安装Content Provider -&gt; publishContentProvider
 </li>
 <li>systemReady
 <ol class="org-ol">
@@ -1462,11 +1462,11 @@ Application：一个可以维护全局的应用程序状态的基类
 <h4 id="sec-1-6-2">应用程序Activity的启动和调度</h4>
 <div class="outline-text-4" id="text-1-6-2">
 <p>
-Launcher.onClick -> Launcher.startActivitySafely -> Launcher.startActivity -> Launch.parent.startActivity -> Activity.startActivityForResult(requestCode = -1) -> Instrumentation.execStartActivity -> ActivityManagerProxy.startActivity -> BinderProxy.transact(START<sub>ACTIVITY</sub><sub>TRANSACTION</sub>)
+Launcher.onClick -&gt; Launcher.startActivitySafely -&gt; Launcher.startActivity -&gt; Launch.parent.startActivity -&gt; Activity.startActivityForResult(requestCode = -1) -&gt; Instrumentation.execStartActivity -&gt; ActivityManagerProxy.startActivity -&gt; BinderProxy.transact(START<sub>ACTIVITY</sub><sub>TRANSACTION</sub>)
 </p>
 
 <p>
-ActivityManagerService.startActivityMayWait -> ActivityStack.startActivityLock -> ActivityStack.startActivityUncheckedLocked -> ActivityStack.startActivityLocked -> ActivityStack.resumeTopActivity
+ActivityManagerService.startActivityMayWait -&gt; ActivityStack.startActivityLock -&gt; ActivityStack.startActivityUncheckedLocked -&gt; ActivityStack.startActivityLocked -&gt; ActivityStack.resumeTopActivity
 </p>
 
 <p>
@@ -1474,7 +1474,7 @@ ActivityManagerService.startActivityMayWait
 </p>
 
 <p>
-int index = indexOfTokenLocked -> resultCode = mHistory.get(index) -> sendActivityResultLocked
+int index = indexOfTokenLocked -&gt; resultCode = mHistory.get(index) -&gt; sendActivityResultLocked
 </p>
 
 <p>
@@ -1490,7 +1490,7 @@ FLAG<sub>ACTIVITY</sub><sub>NEW</sub><sub>TASK：</sub>
 </ul>
 
 <p>
-用户行为导致Activity切换 -> 回调Activity.onUserLeaveHint
+用户行为导致Activity切换 -&gt; 回调Activity.onUserLeaveHint
 </p>
 
 <p>
@@ -1576,13 +1576,13 @@ FLAG<sub>ACTIVITY</sub><sub>NEW</sub><sub>TASK：</sub>
 <li>ActivityStack.realStartActivityLocked：加载Activity，onCreate，onStart，onResume。会通过WindowManagerService冻结屏幕并设置Activity可见。
 </li>
 
-<li>handleLaunchActivity -> performLaunchActivity -> newActivity -> makeApplication -> init -> attach -> callActivityOnCreate -> performCreate -> onCreate -> performStart -> callActivityOnStart -> onStart -> callActivityOnPostCreate -> onPostCreate
+<li>handleLaunchActivity -&gt; performLaunchActivity -&gt; newActivity -&gt; makeApplication -&gt; init -&gt; attach -&gt; callActivityOnCreate -&gt; performCreate -&gt; onCreate -&gt; performStart -&gt; callActivityOnStart -&gt; onStart -&gt; callActivityOnPostCreate -&gt; onPostCreate
 </li>
 
-<li>handleResumeActivity -> performResumeActivity -> onResume 控制可见性，如果在onResume时，又启动另一个Activity则窗口变不可见，黑屏可能由此来。onResume之前可能会有onNewIntent与onActivityResult调用
+<li>handleResumeActivity -&gt; performResumeActivity -&gt; onResume 控制可见性，如果在onResume时，又启动另一个Activity则窗口变不可见，黑屏可能由此来。onResume之前可能会有onNewIntent与onActivityResult调用
 </li>
 
-<li>如果当前Activity处于stop状态，onRestart -> onStart -> onResume -》onPostResme
+<li>如果当前Activity处于stop状态，onRestart -&gt; onStart -&gt; onResume -》onPostResme
 </li>
 
 <li>Activity.finish只是标志一下Activity处于完成的状态，会在IdleHandle线程中销毁
@@ -1692,8 +1692,8 @@ Last Updated 2017-10-11 三 21:05.<br>Render by <a href="https://github.com/Code
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/10/01/食物参考/" rel="prev" title="食物口味参考">
-                食物口味参考 <i class="fa fa-chevron-right"></i>
+              <a href="/2015/10/01/装备清单/" rel="prev" title="全部装备清单">
+                全部装备清单 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -1771,7 +1771,7 @@ Last Updated 2017-10-11 三 21:05.<br>Render by <a href="https://github.com/Code
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
