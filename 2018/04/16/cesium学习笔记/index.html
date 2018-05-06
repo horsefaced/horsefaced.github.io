@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="2018.04.16Cesium Pick有BUG，它是根据3DTiles的boundingSphere加上geometryError来确定模型占地面积，由maximumHeight的两倍来确定模型的高度。模型在这个范围内浮动，不会有明显的问题，超出这个范围就会有点选不中，显示异常的问题。">
+<meta name="description" content="2018.05.03不支持 KHR_materials_pbrSpecularGlossiness  Entity 保存了 GraphicGraphic 保存 Geometry 对象的描述属性，但没有定义怎么画出这个对象 Billboard: Billboard  @performance Reading a property, e.g., {@link Billboard#show}, is c">
 <meta name="keywords" content="cesium">
 <meta property="og:type" content="article">
 <meta property="og:title" content="cesium学习笔记">
 <meta property="og:url" content="http://horsefaced.github.io/2018/04/16/cesium学习笔记/index.html">
 <meta property="og:site_name" content="大道废">
-<meta property="og:description" content="2018.04.16Cesium Pick有BUG，它是根据3DTiles的boundingSphere加上geometryError来确定模型占地面积，由maximumHeight的两倍来确定模型的高度。模型在这个范围内浮动，不会有明显的问题，超出这个范围就会有点选不中，显示异常的问题。">
+<meta property="og:description" content="2018.05.03不支持 KHR_materials_pbrSpecularGlossiness  Entity 保存了 GraphicGraphic 保存 Geometry 对象的描述属性，但没有定义怎么画出这个对象 Billboard: Billboard  @performance Reading a property, e.g., {@link Billboard#show}, is c">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-16T09:03:17.536Z">
+<meta property="og:updated_time" content="2018-05-05T23:54:58.927Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cesium学习笔记">
-<meta name="twitter:description" content="2018.04.16Cesium Pick有BUG，它是根据3DTiles的boundingSphere加上geometryError来确定模型占地面积，由maximumHeight的两倍来确定模型的高度。模型在这个范围内浮动，不会有明显的问题，超出这个范围就会有点选不中，显示异常的问题。">
+<meta name="twitter:description" content="2018.05.03不支持 KHR_materials_pbrSpecularGlossiness  Entity 保存了 GraphicGraphic 保存 Geometry 对象的描述属性，但没有定义怎么画出这个对象 Billboard: Billboard  @performance Reading a property, e.g., {@link Billboard#show}, is c">
 
 
 
@@ -290,8 +290,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2018-04-16T17:03:17+08:00">
-                2018-04-16
+              <time title="更新于" itemprop="dateModified" datetime="2018-05-06T07:54:58+08:00">
+                2018-05-06
               </time>
             
           </span>
@@ -324,7 +324,37 @@
       
 
       
-        <h3 id="2018-04-16"><a href="#2018-04-16" class="headerlink" title="2018.04.16"></a>2018.04.16</h3><p>Cesium Pick有BUG，它是根据3DTiles的boundingSphere加上geometryError来确定模型占地面积，由maximumHeight的两倍来确定模型的高度。模型在这个范围内浮动，不会有明显的问题，超出这个范围就会有点选不中，显示异常的问题。</p>
+        <h3 id="2018-05-03"><a href="#2018-05-03" class="headerlink" title="2018.05.03"></a>2018.05.03</h3><p>不支持 KHR_materials_pbrSpecularGlossiness </p>
+<p>Entity 保存了 Graphic<br>Graphic 保存 Geometry 对象的描述属性，但没有定义怎么画出这个对象</p>
+<p>Billboard:</p>
+<p>Billboard</p>
+<ul>
+<li>@performance Reading a property, e.g., {@link Billboard#show}, is constant time.</li>
+<li>Assigning to a property is constant time but results in</li>
+<li>CPU to GPU traffic when {@link BillboardCollection#update} is called. The per-billboard traffic is</li>
+<li>the same regardless of how many properties were updated. If most billboards in a collection need to be</li>
+<li>updated, it may be more efficient to clear the collection with {@link BillboardCollection#removeAll}</li>
+<li>and add new billboards instead of modifying each one.<br>照这么说来，当 BillboardCollection.update 的时候才会处理成 GPU 的数据发送至 GPU</li>
+</ul>
+<p>BillboradGraphics<br>BillboardGraphicsSpec</p>
+<p>BillboardCollection<br>BillboardCollectionSpec</p>
+<p>BillboardVisualizer<br>BillboardVisualizerSpec</p>
+<p>BillboardCollectionFS.glsl<br>BillboardCollectionVS.glsl</p>
+<p>createBillboardPointCallback </p>
+<p>Entity 不指定方向的情况下用 eastNorthUpToFixedFrame</p>
+<h3 id="2018-04-27"><a href="#2018-04-27" class="headerlink" title="2018.04.27"></a>2018.04.27</h3><p>Cesium 画geometry的效率<br>Billboard 》polyline &gt; box = plane 》 polygon(不带挤压高度) &gt; polygon(带挤压高度) </p>
+<p>一万个 ellipse ellipsoid cylinder corrdior 会有内存不足的问题</p>
+<p>画一个带指示线的标签</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> viewer = <span class="keyword">new</span> Cesium.Viewer(<span class="string">'cesiumContainer'</span>,</span><br><span class="line">                               &#123;<span class="attr">timeline</span>: <span class="literal">false</span>, <span class="attr">animation</span>: <span class="literal">false</span>&#125;);</span><br><span class="line"><span class="keyword">var</span> scene = viewer.scene;</span><br><span class="line"><span class="keyword">var</span> offsetX = <span class="number">50</span>, offsetY = <span class="number">-80</span>;</span><br><span class="line"><span class="keyword">var</span> pos = Cesium.Cartesian3.fromDegrees(<span class="number">-75.1641667</span>, <span class="number">29.9522222</span>);</span><br><span class="line"><span class="keyword">var</span> labels = scene.primitives.add(<span class="keyword">new</span> Cesium.LabelCollection());</span><br><span class="line">labels.add(&#123;</span><br><span class="line">    position: pos,</span><br><span class="line">    text: <span class="string">'Another label'</span>,</span><br><span class="line">    pixelOffset: <span class="keyword">new</span> Cesium.Cartesian2(offsetX, offsetY)</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.createElement(<span class="string">'canvas'</span>);</span><br><span class="line">canvas.width = <span class="built_in">Math</span>.abs(offsetX);</span><br><span class="line">canvas.height = <span class="built_in">Math</span>.abs(offsetY);</span><br><span class="line"><span class="keyword">var</span> context2D = canvas.getContext(<span class="string">'2d'</span>);</span><br><span class="line">context2D.beginPath();</span><br><span class="line">context2D.lineWidth = <span class="number">3</span>;</span><br><span class="line">context2D.strokeStyle = <span class="string">'#ffffff'</span>;</span><br><span class="line">context2D.moveTo((offsetX &lt; <span class="number">0</span>) ? -offsetX : <span class="number">0</span>, (offsetY &lt; <span class="number">0</span>) ? -offsetY : <span class="number">0</span>);</span><br><span class="line">context2D.lineTo((offsetX &lt; <span class="number">0</span>) ? <span class="number">0</span> : offsetX, (offsetY &lt; <span class="number">0</span>) ? <span class="number">0</span> : offsetY);</span><br><span class="line">context2D.stroke();</span><br><span class="line"><span class="keyword">var</span> billboards = scene.primitives.add(<span class="keyword">new</span> Cesium.BillboardCollection());</span><br><span class="line"><span class="keyword">var</span> billboard = billboards.add(&#123;</span><br><span class="line">    color : Cesium.Color.RED,</span><br><span class="line">    image : canvas,</span><br><span class="line">    pixelOffset: <span class="keyword">new</span> Cesium.Cartesian2(offsetX * <span class="number">0.5</span>, offsetY * <span class="number">0.5</span>),</span><br><span class="line">    position : pos</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><a href="https://stackoverflow.com/questions/32716118/cesium-js-how-draw-line-binding-a-label-to-a-position" target="_blank" rel="noopener">https://stackoverflow.com/questions/32716118/cesium-js-how-draw-line-binding-a-label-to-a-position</a></p>
+<h3 id="2018-04-26"><a href="#2018-04-26" class="headerlink" title="2018.04.26"></a>2018.04.26</h3><p>Primitive 对象有定点着色器与片元着色器的源代码入口</p>
+<p>Viewer.scene.drillPick 返回的 pickedObjects 数组对象<br>pickedObject.id 为 entity<br>pickedObject.primitive 为相应的 primitive 对象</p>
+<p>添加X,Y,Z三轴线</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> modelMatrix = Cesium.Transforms.headingPitchRollToFixedFrame(position, hprRollZero, Cesium.Ellipsoid.WGS84, converter);</span><br><span class="line">    scene.primitives.add(<span class="keyword">new</span> Cesium.DebugModelMatrixPrimitive(&#123;</span><br><span class="line">        modelMatrix : modelMatrix,</span><br><span class="line">        length : <span class="number">300.0</span>,</span><br><span class="line">        width : <span class="number">10.0</span></span><br><span class="line">    &#125;));</span><br></pre></td></tr></table></figure>
+<h3 id="2018-04-24"><a href="#2018-04-24" class="headerlink" title="2018.04.24"></a>2018.04.24</h3><p>Geometry画出来的图形是以地球坐标系来画的， Model是以模型自身的坐标系来画的，3DTileset是以地球坐标系来画的</p>
+<p>3DTileset.debugWireframe可以显示骨架</p>
+<h3 id="2018-04-16"><a href="#2018-04-16" class="headerlink" title="2018.04.16"></a>2018.04.16</h3><p>Cesium Pick有BUG，它是根据3DTiles的boundingSphere加上geometryError来确定模型占地面积，由maximumHeight的两倍来确定模型的高度。模型在这个范围内浮动，不会有明显的问题，超出这个范围就会有点选不中，显示异常的问题。</p>
+<p>3DTileset的modelMatrix是整个set共用的，pickedFeature里的</p>
 
       
     </div>
@@ -364,6 +394,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/06/Garmin-forerunner-935-添加导航路径/" rel="prev" title="Garmin forerunner 935 添加导航路径">
+                Garmin forerunner 935 添加导航路径 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -442,7 +476,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -506,7 +540,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2018-04-16"><span class="nav-number">1.</span> <span class="nav-text">2018.04.16</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2018-05-03"><span class="nav-number">1.</span> <span class="nav-text">2018.05.03</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2018-04-27"><span class="nav-number">2.</span> <span class="nav-text">2018.04.27</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2018-04-26"><span class="nav-number">3.</span> <span class="nav-text">2018.04.26</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2018-04-24"><span class="nav-number">4.</span> <span class="nav-text">2018.04.24</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2018-04-16"><span class="nav-number">5.</span> <span class="nav-text">2018.04.16</span></a></li></ol></div>
             
 
           </div>
