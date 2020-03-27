@@ -241,6 +241,153 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://horsefaced.github.io/2020/03/27/artemis的消息持久问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="马面">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大道废">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/27/artemis的消息持久问题/" itemprop="url">artemis的消息持久问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-27T15:05:41+08:00">
+                2020-03-27
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-03-27T15:24:56+08:00">
+                2020-03-27
+              </time>
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>根据<a href="https://activemq.apache.org/how-does-a-queue-compare-to-a-topic" target="_blank" rel="noopener">How does a Queue compare to a Topic</a>的介绍, 以下是原文:</p>
+<blockquote>
+<p>Topics<br>In JMS a Topic implements publish and subscribe semantics. When you publish a message it goes to all the subscribers who are interested - so zero to many subscribers will receive a copy of the message. Only subscribers who had an active subscription at the time the broker receives the message will get a copy of the message.</p>
+</blockquote>
+<blockquote>
+<p>Queues<br>A JMS Queue implements load balancer semantics. A single message will be received by exactly one consumer. If there are no consumers available at the time the message is sent it will be kept until a consumer is available that can process the message. If a consumer receives a message and does not acknowledge it before closing then the message will be redelivered to another consumer. A queue can have many consumers with messages load balanced across the available consumers.</p>
+</blockquote>
+<blockquote>
+<p>So Queues implement a reliable load balancer in JMS.</p>
+</blockquote>
+<p>说明, 以topic形式出现的消息在没有订阅者的情况下, 并不能持久化, 而是直接丢弃了. 只有发布在queue中才能持久化. 其表现为, 通过MQTT发布的topic, 在没有特别配置的情况下, 就是说在topic与queue都是auto-create的情况下, 消息会在没有消费者的情况下直接丢失. </p>
+<p>通过配置storker.xml文件, 可以指定某个address生成queue, 比如:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">address</span> <span class="attr">name</span>=<span class="string">"sometopic"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">anycast</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">queue</span> <span class="attr">name</span>=<span class="string">"sometopic"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">anycast</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">address</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这时, 发送到这个topic上的消息就可以持久化了. </p>
+<p>但这里要注意, 如果是:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">address</span> <span class="attr">name</span>=<span class="string">"sometopic"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">multicast</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">queue</span> <span class="attr">name</span>=<span class="string">"sometopic"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">multicast</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">address</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>会形成一个publish/subscribe形式, 根据上文指出的, 就不会持久化消息.</p>
+<p>最后, mqtt缺省的就是publish/subscribe模型, 在没有订阅者的情况下就是会丢失消息.</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://horsefaced.github.io/2019/09/01/狼塔装备/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2205,160 +2352,6 @@ Last Updated 2017-10-12 四 06:45.<br>Render by <a href="https://github.com/Code
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://horsefaced.github.io/2016/09/04/山之屋烤鸡胸土豆泥/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="马面">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="大道废">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/09/04/山之屋烤鸡胸土豆泥/" itemprop="url">山之屋烤鸡胸土豆泥</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-04T00:00:00+08:00">
-                2016-09-04
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于&#58;</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2017-10-11T21:34:51+08:00">
-                2017-10-11
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/户外/" itemprop="url" rel="index">
-                    <span itemprop="name">户外</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="/images/mh1/full.jpg" alt="本体"><br>非常的饱，鸡胸一如既往的没有味道。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2409,7 +2402,7 @@ Last Updated 2017-10-12 四 06:45.<br>Render by <a href="https://github.com/Code
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2431,7 +2424,7 @@ Last Updated 2017-10-12 四 06:45.<br>Render by <a href="https://github.com/Code
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

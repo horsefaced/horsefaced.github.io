@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://horsefaced.github.io/"/>
-  <updated>2020-03-27T07:00:25.166Z</updated>
+  <updated>2020-03-27T07:24:56.722Z</updated>
   <id>http://horsefaced.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>artemis的消息持久问题</title>
+    <link href="http://horsefaced.github.io/2020/03/27/artemis%E7%9A%84%E6%B6%88%E6%81%AF%E6%8C%81%E4%B9%85%E9%97%AE%E9%A2%98/"/>
+    <id>http://horsefaced.github.io/2020/03/27/artemis的消息持久问题/</id>
+    <published>2020-03-27T07:05:41.000Z</published>
+    <updated>2020-03-27T07:24:56.722Z</updated>
+    
+    <content type="html"><![CDATA[<p>根据<a href="https://activemq.apache.org/how-does-a-queue-compare-to-a-topic" target="_blank" rel="noopener">How does a Queue compare to a Topic</a>的介绍, 以下是原文:</p><blockquote><p>Topics<br>In JMS a Topic implements publish and subscribe semantics. When you publish a message it goes to all the subscribers who are interested - so zero to many subscribers will receive a copy of the message. Only subscribers who had an active subscription at the time the broker receives the message will get a copy of the message.</p></blockquote><blockquote><p>Queues<br>A JMS Queue implements load balancer semantics. A single message will be received by exactly one consumer. If there are no consumers available at the time the message is sent it will be kept until a consumer is available that can process the message. If a consumer receives a message and does not acknowledge it before closing then the message will be redelivered to another consumer. A queue can have many consumers with messages load balanced across the available consumers.</p></blockquote><blockquote><p>So Queues implement a reliable load balancer in JMS.</p></blockquote><p>说明, 以topic形式出现的消息在没有订阅者的情况下, 并不能持久化, 而是直接丢弃了. 只有发布在queue中才能持久化. 其表现为, 通过MQTT发布的topic, 在没有特别配置的情况下, 就是说在topic与queue都是auto-create的情况下, 消息会在没有消费者的情况下直接丢失. </p><p>通过配置storker.xml文件, 可以指定某个address生成queue, 比如:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">address</span> <span class="attr">name</span>=<span class="string">"sometopic"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">anycast</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">queue</span> <span class="attr">name</span>=<span class="string">"sometopic"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">anycast</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">address</span>&gt;</span></span><br></pre></td></tr></table></figure></p><p>这时, 发送到这个topic上的消息就可以持久化了. </p><p>但这里要注意, 如果是:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">address</span> <span class="attr">name</span>=<span class="string">"sometopic"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">multicast</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">queue</span> <span class="attr">name</span>=<span class="string">"sometopic"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">multicast</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">address</span>&gt;</span></span><br></pre></td></tr></table></figure></p><p>会形成一个publish/subscribe形式, 根据上文指出的, 就不会持久化消息.</p><p>最后, mqtt缺省的就是publish/subscribe模型, 在没有订阅者的情况下就是会丢失消息.</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;根据&lt;a href=&quot;https://activemq.apache.org/how-does-a-queue-compare-to-a-topic&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;How does a Queue compare to a 
+      
+    
+    </summary>
+    
+    
+      <category term="artemis mqtt program" scheme="http://horsefaced.github.io/tags/artemis-mqtt-program/"/>
+    
+  </entry>
   
   <entry>
     <title></title>
@@ -235,6 +258,36 @@
   </entry>
   
   <entry>
+    <title>环台路书</title>
+    <link href="http://horsefaced.github.io/2017/04/16/%E7%8E%AF%E5%8F%B0%E8%B7%AF%E4%B9%A6/"/>
+    <id>http://horsefaced.github.io/2017/04/16/环台路书/</id>
+    <published>2017-04-15T16:00:00.000Z</published>
+    <updated>2017-10-11T13:15:24.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="台北至新竹-81公里"><a href="#台北至新竹-81公里" class="headerlink" title="台北至新竹 81公里"></a>台北至新竹 81公里</h2><p>台北-三峡-大溪老街-石门-关西-城隍庙-新竹</p><p>台3线-县道118</p><p>景点：新竹城隍庙</p><h2 id="新竹至台中-100公里"><a href="#新竹至台中-100公里" class="headerlink" title="新竹至台中 100公里"></a>新竹至台中 100公里</h2><p>新竹-竹南-后茏-通霄-苑里-大甲-清水-沙鹿-台中</p><p>台61线-台1线-台12线</p><p>景点：</p><p>​    大甲镇澜宫</p><p>​    台中彩虹村</p><p>​    台中逢甲夜市</p><h2 id="台中至嘉义-94-3公里"><a href="#台中至嘉义-94-3公里" class="headerlink" title="台中至嘉义 94.3公里"></a>台中至嘉义 94.3公里</h2><p>台中-彰化-员林-北斗-西螺-斗南-民雄-嘉义</p><p>台1线</p><p>景点：嘉义火鸡肉饭</p><h2 id="嘉义至垦丁"><a href="#嘉义至垦丁" class="headerlink" title="嘉义至垦丁"></a>嘉义至垦丁</h2><p>备用路线：</p><h3 id="去国圣灯塔"><a href="#去国圣灯塔" class="headerlink" title="去国圣灯塔"></a>去国圣灯塔</h3><h4 id="嘉义至台南-95-2公里"><a href="#嘉义至台南-95-2公里" class="headerlink" title="嘉义至台南 95.2公里"></a>嘉义至台南 95.2公里</h4><p>嘉义-国圣港灯塔-台南</p><h4 id="台南至枋寮-86-5公里"><a href="#台南至枋寮-86-5公里" class="headerlink" title="台南至枋寮 86.5公里"></a>台南至枋寮 86.5公里</h4><p>台1</p><h4 id="枋寮至垦丁-59-1公里"><a href="#枋寮至垦丁-59-1公里" class="headerlink" title="枋寮至垦丁 59.1公里"></a>枋寮至垦丁 59.1公里</h4><h3 id="不去国圣灯塔"><a href="#不去国圣灯塔" class="headerlink" title="不去国圣灯塔"></a>不去国圣灯塔</h3><h4 id="嘉义至高雄-115公里"><a href="#嘉义至高雄-115公里" class="headerlink" title="嘉义至高雄 115公里"></a>嘉义至高雄 115公里</h4><p>嘉义-水上-新营-林凤营-隆田-善化-永康-台南-冈山-高雄</p><p>台1线</p><h4 id="高雄至垦丁-104公里"><a href="#高雄至垦丁-104公里" class="headerlink" title="高雄至垦丁 104公里"></a>高雄至垦丁 104公里</h4><p>高雄-小港-东港-佳冬-枋寮-枋山-枫港-车城-恒春-垦丁</p><p>台17线-台1线-台26线</p><h2 id="垦丁至台东-153公里"><a href="#垦丁至台东-153公里" class="headerlink" title="垦丁至台东 153公里"></a>垦丁至台东 153公里</h2><p>备用路线：</p><ol><li>垦丁至旭海 58公里 游玩路线</li><li>旭海至台东 100公里</li></ol><p>台26-县200甲-县199-台9</p><h2 id="台东至玉里-85公里"><a href="#台东至玉里-85公里" class="headerlink" title="台东至玉里 85公里"></a>台东至玉里 85公里</h2><p>台东-初鹿-鹿野-关山-池上-富里-玉里</p><p>台9</p><p>景点：池上便当</p><h2 id="玉里至花莲太鲁阁-113公里"><a href="#玉里至花莲太鲁阁-113公里" class="headerlink" title="玉里至花莲太鲁阁 113公里"></a>玉里至花莲太鲁阁 113公里</h2><p>玉里-瑞穗-富源-光复糖厂-凤林-丰田-志学-吉安-花莲-新城-太鲁阁</p><p>台9</p><p>景点：</p><p>​    瑞穗北回归线</p><p>​    麻糬</p><h2 id="花莲至苏澳-82公里"><a href="#花莲至苏澳-82公里" class="headerlink" title="花莲至苏澳 82公里"></a>花莲至苏澳 82公里</h2><p>台9</p><p>景点：</p><p>​    苏澳冷泉</p><p>​    苏澳羊羹</p><h2 id="苏澳至九份-89-1公里"><a href="#苏澳至九份-89-1公里" class="headerlink" title="苏澳至九份 89.1公里"></a>苏澳至九份 89.1公里</h2><p>苏澳-三貂角灯塔-九份</p><p>​                台2线</p><h2 id="九份至台北-94-5公里"><a href="#九份至台北-94-5公里" class="headerlink" title="九份至台北 94.5公里"></a>九份至台北 94.5公里</h2><p>九份-富贵角灯塔-台北</p><p>台5线</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;台北至新竹-81公里&quot;&gt;&lt;a href=&quot;#台北至新竹-81公里&quot; class=&quot;headerlink&quot; title=&quot;台北至新竹 81公里&quot;&gt;&lt;/a&gt;台北至新竹 81公里&lt;/h2&gt;&lt;p&gt;台北-三峡-大溪老街-石门-关西-城隍庙-新竹&lt;/p&gt;
+&lt;p&gt;台3线-县道1
+      
+    
+    </summary>
+    
+      <category term="旅行" scheme="http://horsefaced.github.io/categories/%E6%97%85%E8%A1%8C/"/>
+    
+    
+      <category term="旅行" scheme="http://horsefaced.github.io/tags/%E6%97%85%E8%A1%8C/"/>
+    
+      <category term="台湾" scheme="http://horsefaced.github.io/tags/%E5%8F%B0%E6%B9%BE/"/>
+    
+      <category term="自行车" scheme="http://horsefaced.github.io/tags/%E8%87%AA%E8%A1%8C%E8%BD%A6/"/>
+    
+  </entry>
+  
+  <entry>
     <title>环台装备清单</title>
     <link href="http://horsefaced.github.io/2017/04/16/%E7%8E%AF%E5%8F%B0%E8%A3%85%E5%A4%87%E6%B8%85%E5%8D%95/"/>
     <id>http://horsefaced.github.io/2017/04/16/环台装备清单/</id>
@@ -262,36 +315,6 @@
 &lt;td&gt;1&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-      
-    
-    </summary>
-    
-      <category term="旅行" scheme="http://horsefaced.github.io/categories/%E6%97%85%E8%A1%8C/"/>
-    
-    
-      <category term="旅行" scheme="http://horsefaced.github.io/tags/%E6%97%85%E8%A1%8C/"/>
-    
-      <category term="台湾" scheme="http://horsefaced.github.io/tags/%E5%8F%B0%E6%B9%BE/"/>
-    
-      <category term="自行车" scheme="http://horsefaced.github.io/tags/%E8%87%AA%E8%A1%8C%E8%BD%A6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>环台路书</title>
-    <link href="http://horsefaced.github.io/2017/04/16/%E7%8E%AF%E5%8F%B0%E8%B7%AF%E4%B9%A6/"/>
-    <id>http://horsefaced.github.io/2017/04/16/环台路书/</id>
-    <published>2017-04-15T16:00:00.000Z</published>
-    <updated>2017-10-11T13:15:24.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="台北至新竹-81公里"><a href="#台北至新竹-81公里" class="headerlink" title="台北至新竹 81公里"></a>台北至新竹 81公里</h2><p>台北-三峡-大溪老街-石门-关西-城隍庙-新竹</p><p>台3线-县道118</p><p>景点：新竹城隍庙</p><h2 id="新竹至台中-100公里"><a href="#新竹至台中-100公里" class="headerlink" title="新竹至台中 100公里"></a>新竹至台中 100公里</h2><p>新竹-竹南-后茏-通霄-苑里-大甲-清水-沙鹿-台中</p><p>台61线-台1线-台12线</p><p>景点：</p><p>​    大甲镇澜宫</p><p>​    台中彩虹村</p><p>​    台中逢甲夜市</p><h2 id="台中至嘉义-94-3公里"><a href="#台中至嘉义-94-3公里" class="headerlink" title="台中至嘉义 94.3公里"></a>台中至嘉义 94.3公里</h2><p>台中-彰化-员林-北斗-西螺-斗南-民雄-嘉义</p><p>台1线</p><p>景点：嘉义火鸡肉饭</p><h2 id="嘉义至垦丁"><a href="#嘉义至垦丁" class="headerlink" title="嘉义至垦丁"></a>嘉义至垦丁</h2><p>备用路线：</p><h3 id="去国圣灯塔"><a href="#去国圣灯塔" class="headerlink" title="去国圣灯塔"></a>去国圣灯塔</h3><h4 id="嘉义至台南-95-2公里"><a href="#嘉义至台南-95-2公里" class="headerlink" title="嘉义至台南 95.2公里"></a>嘉义至台南 95.2公里</h4><p>嘉义-国圣港灯塔-台南</p><h4 id="台南至枋寮-86-5公里"><a href="#台南至枋寮-86-5公里" class="headerlink" title="台南至枋寮 86.5公里"></a>台南至枋寮 86.5公里</h4><p>台1</p><h4 id="枋寮至垦丁-59-1公里"><a href="#枋寮至垦丁-59-1公里" class="headerlink" title="枋寮至垦丁 59.1公里"></a>枋寮至垦丁 59.1公里</h4><h3 id="不去国圣灯塔"><a href="#不去国圣灯塔" class="headerlink" title="不去国圣灯塔"></a>不去国圣灯塔</h3><h4 id="嘉义至高雄-115公里"><a href="#嘉义至高雄-115公里" class="headerlink" title="嘉义至高雄 115公里"></a>嘉义至高雄 115公里</h4><p>嘉义-水上-新营-林凤营-隆田-善化-永康-台南-冈山-高雄</p><p>台1线</p><h4 id="高雄至垦丁-104公里"><a href="#高雄至垦丁-104公里" class="headerlink" title="高雄至垦丁 104公里"></a>高雄至垦丁 104公里</h4><p>高雄-小港-东港-佳冬-枋寮-枋山-枫港-车城-恒春-垦丁</p><p>台17线-台1线-台26线</p><h2 id="垦丁至台东-153公里"><a href="#垦丁至台东-153公里" class="headerlink" title="垦丁至台东 153公里"></a>垦丁至台东 153公里</h2><p>备用路线：</p><ol><li>垦丁至旭海 58公里 游玩路线</li><li>旭海至台东 100公里</li></ol><p>台26-县200甲-县199-台9</p><h2 id="台东至玉里-85公里"><a href="#台东至玉里-85公里" class="headerlink" title="台东至玉里 85公里"></a>台东至玉里 85公里</h2><p>台东-初鹿-鹿野-关山-池上-富里-玉里</p><p>台9</p><p>景点：池上便当</p><h2 id="玉里至花莲太鲁阁-113公里"><a href="#玉里至花莲太鲁阁-113公里" class="headerlink" title="玉里至花莲太鲁阁 113公里"></a>玉里至花莲太鲁阁 113公里</h2><p>玉里-瑞穗-富源-光复糖厂-凤林-丰田-志学-吉安-花莲-新城-太鲁阁</p><p>台9</p><p>景点：</p><p>​    瑞穗北回归线</p><p>​    麻糬</p><h2 id="花莲至苏澳-82公里"><a href="#花莲至苏澳-82公里" class="headerlink" title="花莲至苏澳 82公里"></a>花莲至苏澳 82公里</h2><p>台9</p><p>景点：</p><p>​    苏澳冷泉</p><p>​    苏澳羊羹</p><h2 id="苏澳至九份-89-1公里"><a href="#苏澳至九份-89-1公里" class="headerlink" title="苏澳至九份 89.1公里"></a>苏澳至九份 89.1公里</h2><p>苏澳-三貂角灯塔-九份</p><p>​                台2线</p><h2 id="九份至台北-94-5公里"><a href="#九份至台北-94-5公里" class="headerlink" title="九份至台北 94.5公里"></a>九份至台北 94.5公里</h2><p>九份-富贵角灯塔-台北</p><p>台5线</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;台北至新竹-81公里&quot;&gt;&lt;a href=&quot;#台北至新竹-81公里&quot; class=&quot;headerlink&quot; title=&quot;台北至新竹 81公里&quot;&gt;&lt;/a&gt;台北至新竹 81公里&lt;/h2&gt;&lt;p&gt;台北-三峡-大溪老街-石门-关西-城隍庙-新竹&lt;/p&gt;
-&lt;p&gt;台3线-县道1
       
     
     </summary>
@@ -526,39 +549,6 @@
       <category term="户外" scheme="http://horsefaced.github.io/tags/%E6%88%B7%E5%A4%96/"/>
     
       <category term="装备" scheme="http://horsefaced.github.io/tags/%E8%A3%85%E5%A4%87/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>食物口味参考</title>
-    <link href="http://horsefaced.github.io/2015/10/01/%E9%A3%9F%E7%89%A9%E5%8F%82%E8%80%83/"/>
-    <id>http://horsefaced.github.io/2015/10/01/食物参考/</id>
-    <published>2015-09-30T16:00:00.000Z</published>
-    <updated>2017-10-11T13:31:41.000Z</updated>
-    
-    <content type="html"><![CDATA[<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"><colgroup><col class="left"><col class="left"><col class="right"></colgroup><thead><tr><th scope="col" class="left">食物名称</th><th scope="col" class="left">口感</th><th scope="col" class="right">重量</th></tr></thead><tbody><tr><td class="left">科尔沁风干牛肉（原味）</td><td class="left">口感不错，香脆。但有点过咸，当路粮吃可以，当配菜不行。当路粮吃时会有大量饮水的问题</td><td class="right">&#xa0;</td></tr><tr><td class="left">宝矿力水特冲剂</td><td class="left">口感不错，与成品水一样，很清爽</td><td class="right">&#xa0;</td></tr><tr><td class="left">NUUN可乐味</td><td class="left">真是难喝到奇皅</td><td class="right">&#xa0;</td></tr><tr><td class="left">H5ZERO柚子味</td><td class="left">真是不错，可以再喝</td><td class="right">&#xa0;</td></tr><tr><td class="left">牛肉泡馍</td><td class="left">酱包放一半味道非常好，吃不太饱，要配其它主食</td><td class="right">178</td></tr><tr><td class="left">糊辣汤</td><td class="left">一小包可以泡一升这种子，可以吃饱的感觉。可加紫菜豆腐</td><td class="right">90</td></tr><tr><td class="left">士力架</td><td class="left">天冷时很好吃</td><td class="right">&#xa0;</td></tr><tr><td class="left">羊肉泡馍</td><td class="left">酱包放一半</td><td class="right">192</td></tr><tr><td class="left">千石谷熟化米</td><td class="left">真的是非常难吃的东西，以后不要买了</td><td class="right">124</td></tr><tr><td class="left">各种意大利面</td><td class="left">分量很足，但太费火了，不合适重装户外，一两日吃吃可以</td><td class="right">&#xa0;</td></tr><tr><td class="left">维维嚼益嚼（苹果味）</td><td class="left">味道不错，有苹果的味道，口感与果条很像</td><td class="right">&#xa0;</td></tr><tr><td class="left">维维嚼益嚼（芒果椰子）</td><td class="left">有很浓的芒果味道，椰子味道没吃出来</td><td class="right">&#xa0;</td></tr><tr><td class="left">维维嚼益嚼（红枣）</td><td class="left">枣味非常浓，很像月饼</td><td class="right">&#xa0;</td></tr><tr><td class="left">维维嚼益嚼（葡萄干）</td><td class="left">味道不好吃，相对其它口味来说味道有点惨</td><td class="right">&#xa0;</td></tr><tr><td class="left">维维嚼益嚼（山楂）</td><td class="left">味道好像红枣</td><td class="right">&#xa0;</td></tr><tr><td class="left">KOKA 原味鸡汤面</td><td class="left">味道很清爽，鸡汤味很好，吃过不会口干</td><td class="right">&#xa0;</td></tr><tr><td class="left">7COIN 泰式冬荫功风味</td><td class="left">很浓的柠檬酸味，口味有点重，一点点的辣</td><td class="right">&#xa0;</td></tr><tr><td class="left">喜达（sedoop）捞面原味</td><td class="left">原味就是一种冬荫功的感觉，不过捞面看着美好，户外做起来要准备两个碗也是麻烦了点。</td><td class="right">&#xa0;</td></tr><tr><td class="left">尾西</td><td class="left">来自日本,于是很合适中国人的口味,比较清淡,就是份量不太足</td><td class="right">&#xa0;</td></tr><tr><td class="left">&#xa0;</td><td class="left">&#xa0;</td><td class="right">&#xa0;</td></tr></tbody></table>Last Updated 2017-10-11 三 21:31.<br>Render by <a href="https://github.com/CodeFalling/hexo-renderer-org" target="_blank" rel="noopener">hexo-renderer-org</a> with <a href="http://www.gnu.org/software/emacs/" target="_blank" rel="noopener">Emacs</a> 25.3.1 (<a href="http://orgmode.org" target="_blank" rel="noopener">Org</a> mode 8.2.10)]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        
-
-&lt;table border=&quot;2&quot; cellspacing=&quot;0&quot; cellpadding=&quot;6&quot; rules=&quot;groups&quot; frame=&quot;hsides&quot;&gt;
-
-
-&lt;colgroup&gt;
-&lt;col class=&quot;left&quot;&gt;
-
-&lt;col class=&quot;left&quot;&gt;
-
-&lt;col
-      
-    
-    </summary>
-    
-    
-      <category term="户外" scheme="http://horsefaced.github.io/tags/%E6%88%B7%E5%A4%96/"/>
     
   </entry>
   
