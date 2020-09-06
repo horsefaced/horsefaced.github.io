@@ -1,51 +1,1280 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>大道废</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Table of Contents Android 设计与实现 学习笔记 JNI JNI方法全名规则 JNI引用类型与JAVA引用类型的转化关系 JNI方法签名规则 JNI操作域与方法的函数 JNI引用 JNI异常处理   启动 启动流程 内核引导阶段 内核启动阶段 init进程执行过程 init.rc文件 执行Action，Service与属性服务 进入Java世界   Binder 消息通信篇">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大道废">
+<meta property="og:url" content="http://horsefaced.github.io/2020/09/06/android%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="大道废">
+<meta property="og:description" content="Table of Contents Android 设计与实现 学习笔记 JNI JNI方法全名规则 JNI引用类型与JAVA引用类型的转化关系 JNI方法签名规则 JNI操作域与方法的函数 JNI引用 JNI异常处理   启动 启动流程 内核引导阶段 内核启动阶段 init进程执行过程 init.rc文件 执行Action，Service与属性服务 进入Java世界   Binder 消息通信篇">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-09-06T07:00:12.331Z">
+<meta property="article:modified_time" content="2020-09-06T07:00:12.331Z">
+<meta property="article:author" content="马面">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="大道废" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">大道废</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://horsefaced.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-android设计与实现学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/06/android%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time datetime="2020-09-06T07:00:12.331Z" itemprop="datePublished">2020-09-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Table-of-Contents"><a href="#Table-of-Contents" class="headerlink" title="Table of Contents"></a>Table of Contents</h1><ol>
+<li><a href="#orgef119aa">Android 设计与实现 学习笔记</a><ol>
+<li><a href="#org0b72cde">JNI</a><ol>
+<li><a href="#org1bb742b">JNI方法全名规则</a></li>
+<li><a href="#orgb31f5bb">JNI引用类型与JAVA引用类型的转化关系</a></li>
+<li><a href="#org0b4e615">JNI方法签名规则</a></li>
+<li><a href="#orgc09ab0c">JNI操作域与方法的函数</a></li>
+<li><a href="#org7e81c90">JNI引用</a></li>
+<li><a href="#orgb2b8934">JNI异常处理</a></li>
+</ol>
+</li>
+<li><a href="#orgc344ef0">启动</a><ol>
+<li><a href="#org9f72ffc">启动流程</a></li>
+<li><a href="#org75472b5">内核引导阶段</a></li>
+<li><a href="#org4345489">内核启动阶段</a></li>
+<li><a href="#orgcee7684">init进程执行过程</a></li>
+<li><a href="#org5541769">init.rc文件</a></li>
+<li><a href="#org508a948">执行Action，Service与属性服务</a></li>
+<li><a href="#orgc7d5e68">进入Java世界</a></li>
+</ol>
+</li>
+<li><a href="#orgcdb405e">Binder</a></li>
+<li><a href="#orgca9e6a3">消息通信篇</a></li>
+<li><a href="#org24ccfa5">Package Manager</a><ol>
+<li><a href="#orgc6c0fa6">结构</a></li>
+<li><a href="#org0229d25">启动</a></li>
+<li><a href="#orgd6f62b7">APK安装过程</a></li>
+</ol>
+</li>
+<li><a href="#org094957a">Activity Manager</a><ol>
+<li><a href="#org92e1626">机制与实现</a></li>
+<li><a href="#orgd6f15d9">应用程序Activity的启动和调度</a></li>
+<li><a href="#org0d6dbed">Activity Manager进程管理</a></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p><a id="orgef119aa"></a></p>
+<h1 id="Android-设计与实现-学习笔记"><a href="#Android-设计与实现-学习笔记" class="headerlink" title="Android 设计与实现 学习笔记"></a>Android 设计与实现 学习笔记</h1><div class="HTML">
+<!&#x2013; more &#x2013;>
+
+</div>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<p><a id="org0b72cde"></a></p>
+<h2 id="JNI"><a href="#JNI" class="headerlink" title="JNI"></a>JNI</h2><p><a id="org1bb742b"></a></p>
+<h3 id="JNI方法全名规则"><a href="#JNI方法全名规则" class="headerlink" title="JNI方法全名规则"></a>JNI方法全名规则</h3><p>java方法：public static native boolean isLoggable(String tag, int level)<br>JNI方法：static jboolean android<sub>util</sub><sub>Log</sub><sub>isLoggable</sub>(JNIEnv* env, jobject clazz, jstring tag, jint level)</p>
+<p><a id="orgb31f5bb"></a></p>
+<h3 id="JNI引用类型与JAVA引用类型的转化关系"><a href="#JNI引用类型与JAVA引用类型的转化关系" class="headerlink" title="JNI引用类型与JAVA引用类型的转化关系"></a>JNI引用类型与JAVA引用类型的转化关系</h3><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
-{% block page_class %}page-post-detail{% endblock %}
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Java类型</th>
+<th scope="col" class="org-left">JNI类型</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td class="org-left">java.lang.Class</td>
+<td class="org-left">jclass</td>
+</tr>
 
 
-{% block content %}
+<tr>
+<td class="org-left">java.lang.String</td>
+<td class="org-left">jstring</td>
+</tr>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+<tr>
+<td class="org-left">java.lang.Throwable</td>
+<td class="org-left">jthrowable</td>
+</tr>
+
+
+<tr>
+<td class="org-left">object[]</td>
+<td class="org-left">jobjectArray</td>
+</tr>
+
+
+<tr>
+<td class="org-left">boolean[]</td>
+<td class="org-left">jbooleanArray</td>
+</tr>
+
+
+<tr>
+<td class="org-left">byte[]</td>
+<td class="org-left">jbyteArray</td>
+</tr>
+
+
+<tr>
+<td class="org-left">char[]</td>
+<td class="org-left">jcharArray</td>
+</tr>
+
+
+<tr>
+<td class="org-left">short[]</td>
+<td class="org-left">jshortArray</td>
+</tr>
+
+
+<tr>
+<td class="org-left">int[]</td>
+<td class="org-left">jintArray</td>
+</tr>
+
+
+<tr>
+<td class="org-left">long[]</td>
+<td class="org-left">jlongArray</td>
+</tr>
+
+
+<tr>
+<td class="org-left">float[]</td>
+<td class="org-left">jfloatArray</td>
+</tr>
+
+
+<tr>
+<td class="org-left">double[]</td>
+<td class="org-left">jdoubleArray</td>
+</tr>
+</tbody>
+</table>
+
+
+<p><a id="org0b4e615"></a></p>
+<h3 id="JNI方法签名规则"><a href="#JNI方法签名规则" class="headerlink" title="JNI方法签名规则"></a>JNI方法签名规则</h3><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Java类型</th>
+<th scope="col" class="org-left">类型签名</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td class="org-left">boolean</td>
+<td class="org-left">Z</td>
+</tr>
+
+
+<tr>
+<td class="org-left">byte</td>
+<td class="org-left">B</td>
+</tr>
+
+
+<tr>
+<td class="org-left">chat</td>
+<td class="org-left">C</td>
+</tr>
+
+
+<tr>
+<td class="org-left">long</td>
+<td class="org-left">J</td>
+</tr>
+
+
+<tr>
+<td class="org-left">float</td>
+<td class="org-left">F</td>
+</tr>
+
+
+<tr>
+<td class="org-left">double</td>
+<td class="org-left">D</td>
+</tr>
+
+
+<tr>
+<td class="org-left">short</td>
+<td class="org-left">S</td>
+</tr>
+
+
+<tr>
+<td class="org-left">int</td>
+<td class="org-left">I</td>
+</tr>
+
+
+<tr>
+<td class="org-left">类</td>
+<td class="org-left">L全限定类名;</td>
+</tr>
+
+
+<tr>
+<td class="org-left">数组</td>
+<td class="org-left">[元素类型签名</td>
+</tr>
+</tbody>
+</table>
+
+
+<p><a id="orgc09ab0c"></a></p>
+<h3 id="JNI操作域与方法的函数"><a href="#JNI操作域与方法的函数" class="headerlink" title="JNI操作域与方法的函数"></a>JNI操作域与方法的函数</h3><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">访问对象域</th>
+<th scope="col" class="org-left">调用实例方法</th>
+<th scope="col" class="org-left">访问静态域</th>
+<th scope="col" class="org-left">调用静态方法</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td class="org-left">GetFieldID</td>
+<td class="org-left">GetMethodID</td>
+<td class="org-left">GetStaticFieldID</td>
+<td class="org-left">GetStaticMethodID</td>
+</tr>
+
+
+<tr>
+<td class="org-left">Get<Type>Field</td>
+<td class="org-left">Call<Type>Method</td>
+<td class="org-left">GetStatic<Type>Field</td>
+<td class="org-left">CallStatic<Type>Method</td>
+</tr>
+
+
+<tr>
+<td class="org-left">Set<Type>Field</td>
+<td class="org-left">CallNonvirtual<Type>Method</td>
+<td class="org-left">SetStatic<Type>Field</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+
+<p><a id="org7e81c90"></a></p>
+<h3 id="JNI引用"><a href="#JNI引用" class="headerlink" title="JNI引用"></a>JNI引用</h3><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">引用类型</th>
+<th scope="col" class="org-left">是否增加引用计数</th>
+<th scope="col" class="org-left">作用范围</th>
+<th scope="col" class="org-left">生命周期</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td class="org-left">局部引用</td>
+<td class="org-left">可以增加引用计数</td>
+<td class="org-left">本线程</td>
+<td class="org-left">一次Native调用，只在创建它的Native方法的线程中有效，并且只在Native方法的一次调用中有效，在方法返回后，被回收</td>
+</tr>
+
+
+<tr>
+<td class="org-left">全局引用</td>
+<td class="org-left">可以增加引用计数</td>
+<td class="org-left">多线程</td>
+<td class="org-left">多个Native方法，生命周期到显式释放。通过引用JNI函数NewGlobalRef创建，通过DeleteGlobalRef释放</td>
+</tr>
+
+
+<tr>
+<td class="org-left">弱全局引用</td>
+<td class="org-left">不能增加引用计数</td>
+<td class="org-left">多线程</td>
+<td class="org-left">生命周期到显式释放。通过NewWeakGlobalRef创建，通过DeleteWeakGlobalRef释放，通过IsSameObject判断是否被回收</td>
+</tr>
+</tbody>
+</table>
+
+<p>if (env-&gt;isSameObject(weak<sub>ref</sub>, NULL) == JNI<sub>TRUE</sub>) 那么引用被释放</p>
+<p><strong>全局引用，默认不能超过2000个。如果超过，在logcat中会看到”GREF overflow”</strong></p>
+<p><a id="orgb2b8934"></a></p>
+<h3 id="JNI异常处理"><a href="#JNI异常处理" class="headerlink" title="JNI异常处理"></a>JNI异常处理</h3><p>检查异常的方法有：</p>
+<ul>
+<li>检查上一次JNI函数调用的返回值是否为NULL</li>
+<li>通过调用JNI函数ExceptionOccurred()来判断是否发生异常</li>
+</ul>
+<p>检查到异常后必须予以处理：</p>
+<ul>
+<li>立即返回，异常会在Java代码中抛出</li>
+<li>调用ExceptionClear()来清除异常</li>
+</ul>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">JNI异常处理函数</th>
+<th scope="col" class="org-left">功能描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td class="org-left">Throw</td>
+<td class="org-left">抛出现有异常</td>
+</tr>
+
+
+<tr>
+<td class="org-left">ThrowNew</td>
+<td class="org-left">抛出新的异常</td>
+</tr>
+
+
+<tr>
+<td class="org-left">ExceptionOccurred</td>
+<td class="org-left">判断是否发生异常，并获得异常的引用</td>
+</tr>
+
+
+<tr>
+<td class="org-left">ExceptionCheck</td>
+<td class="org-left">判断是否发生异常</td>
+</tr>
+
+
+<tr>
+<td class="org-left">ExceptionDescribe</td>
+<td class="org-left">异常堆栈信息</td>
+</tr>
+
+
+<tr>
+<td class="org-left">ExceptionClear</td>
+<td class="org-left">清除一个未处理的异常</td>
+</tr>
+
+
+<tr>
+<td class="org-left">FatalError</td>
+<td class="org-left">严重错误，退出</td>
+</tr>
+</tbody>
+</table>
+
+
+<p><a id="orgc344ef0"></a></p>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p><a id="org9f72ffc"></a></p>
+<h3 id="启动流程"><a href="#启动流程" class="headerlink" title="启动流程"></a>启动流程</h3><ol>
+<li>执行bootloader</li>
+<li>调用start<sub>kernel进入内核启动阶段</sub>，最终启动用户空间的init程序</li>
+<li>init解析init.rc配置文件，开启zygote与ServiceManager两个守护进程。zygote为Android启动的第一个Dalvik虚拟机，ServiceManager是Binder通信的基础。</li>
+<li>zygote定义socket，用于接收ActivityManagerService启动应用程序的请求</li>
+<li>zygote虚拟机启动system<sub>server子进程</sub>。</li>
+<li>system<sub>server进程的init1与init2阶段分别启动Native</sub> System Service和Java System Service</li>
+<li>在system<sub>server中开启Android核心服务</sub>，并添加入ServiceManager中。设置系统为systemReady状态。</li>
+<li>ActivityManagerService与zygote中的Socket通信，通过zygote启动Home应用，进入系统桌面。</li>
+<li>zygote收到ActivityManagerService连接请求，执行runSelectLoopMode</li>
+<li>zygote处理请求通过forkAndSpecialize启动新的应用进程，并最终启动HOME</li>
+</ol>
+<p><a id="org75472b5"></a></p>
+<h3 id="内核引导阶段"><a href="#内核引导阶段" class="headerlink" title="内核引导阶段"></a>内核引导阶段</h3><ul>
+<li>kernel/arch/arm/kernel/head.S</li>
+<li>kernel/arch/arm/kernel/head-common.S</li>
+</ul>
+<p><a id="org4345489"></a></p>
+<h3 id="内核启动阶段"><a href="#内核启动阶段" class="headerlink" title="内核启动阶段"></a>内核启动阶段</h3><ol>
+<li>kernel/init/main.c -&gt; start<sub>kernel函数</sub></li>
+<li>rest<sub>init</sub> -&gt; kernel<sub>init与kthreadd进程</sub><br>kernel<sub>init</sub> -&gt; init<sub>post</sub> -&gt; /init 程序，或：/sbin/init, /etc/init, /bin/init, /bin/sh -&gt; run<sub>init</sub><sub>process</sub></li>
+</ol>
+<p><a id="orgcee7684"></a></p>
+<h3 id="init进程执行过程"><a href="#init进程执行过程" class="headerlink" title="init进程执行过程"></a>init进程执行过程</h3><ul>
+<li>创建 /proc, /sys, tmpfs, /dev/pts, /dev/socket, devpts, proc, sysfs 这些目录</li>
+<li>解析init.rc初始化文件</li>
+<li>触发build in的Action -&gt; queue<sub>builtin</sub><sub>action</sub>, 这些action并没有在init.rc或者init.<hardware>.rc中配置</li>
+<li>重新启动异常退出的Service</li>
+<li>监听来自属性服务property service</li>
+<li>监控signal，接收子进程异常退出后抛出的SIGCHLD信号，回收子进程资源或者重启子进程</li>
+<li>监听来自keychord设备的事件</li>
+</ul>
+<p><a id="org5541769"></a></p>
+<h3 id="init-rc文件"><a href="#init-rc文件" class="headerlink" title="init.rc文件"></a>init.rc文件</h3><ul>
+<li>基本概念：Section, Action, Service, Trigger, Command, Option</li>
+<li>基本关键字：on, service</li>
+<li>on -&gt; Action</li>
+<li>service -&gt; Service，Option指定何时，如何启动Service程序。Service由服务名，服务对应命令路径，命令参数组成</li>
+<li>Command -&gt; Linux命令或者方法</li>
+<li>Trigger -&gt; 自定义的触发条件</li>
+<li>Action -&gt; on声明，Trigger触发的Command序列</li>
+</ul>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Trigger关键字</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td class="org-left">boot</td>
+<td class="org-left">/init.conf被加载后的第一个trigger</td>
+</tr>
+
+
+<tr>
+<td class="org-left">property:<property name>=<property value></td>
+<td class="org-left">属性值改变为指定值时</td>
+</tr>
+
+
+<tr>
+<td class="org-left">device-added-<path></td>
+<td class="org-left">添加设备时触发</td>
+</tr>
+
+
+<tr>
+<td class="org-left">device-removed-<path></td>
+<td class="org-left">移除设备时触发</td>
+</tr>
+
+
+<tr>
+<td class="org-left">service-exited-<name></td>
+<td class="org-left">指定服务存在时</td>
+</tr>
+</tbody>
+</table>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Command关键字</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td class="org-left">exec <path> [<argument>\*]</td>
+<td class="org-left">执行路径为<path>的程序，参数列表为<argument>\*</td>
+</tr>
+
+
+<tr>
+<td class="org-left">export <name> <value></td>
+<td class="org-left">设置系统全局环境变量</td>
+</tr>
+
+
+<tr>
+<td class="org-left">ifup <interface></td>
+<td class="org-left">使用ifup启动名为<interface>的网络接口</td>
+</tr>
+
+
+<tr>
+<td class="org-left">import <filename></td>
+<td class="org-left">解析导入的init配置文件，扩展当前的配置</td>
+</tr>
+
+
+<tr>
+<td class="org-left">hostname <name></td>
+<td class="org-left">设置主机名</td>
+</tr>
+
+
+<tr>
+<td class="org-left">chdir <directory></td>
+<td class="org-left">切换工作目录</td>
+</tr>
+
+
+<tr>
+<td class="org-left">chmod <octal-mode> <path></td>
+<td class="org-left">修改文件访问权限</td>
+</tr>
+
+
+<tr>
+<td class="org-left">chown <owner> <group> <path></td>
+<td class="org-left">修改文件所有者和组</td>
+</tr>
+
+
+<tr>
+<td class="org-left">chroot <directory></td>
+<td class="org-left">改变程序执行所参考的根目录</td>
+</tr>
+
+
+<tr>
+<td class="org-left">class<sub>start</sub> <serviceclass></td>
+<td class="org-left">启动指定类别的所有服务</td>
+</tr>
+
+
+<tr>
+<td class="org-left">class<sub>stop</sub> <serviceclass></td>
+<td class="org-left">停止指定类别的所有服务</td>
+</tr>
+
+
+<tr>
+<td class="org-left">domainname <name></td>
+<td class="org-left">设置域名</td>
+</tr>
+
+
+<tr>
+<td class="org-left">insmod <path></td>
+<td class="org-left">加载路径为<path>的内核模块</td>
+</tr>
+
+
+<tr>
+<td class="org-left">mkdir <path> [mode] [owner] [group]</td>
+<td class="org-left">创建路径为<path>的目录</td>
+</tr>
+
+
+<tr>
+<td class="org-left">mount <type> <device> <dir> [<mountoption>\*]</td>
+<td class="org-left">挂载设备</td>
+</tr>
+
+
+<tr>
+<td class="org-left">setkey</td>
+<td class="org-left">暂时不可用</td>
+</tr>
+
+
+<tr>
+<td class="org-left">setprop <name> <value></td>
+<td class="org-left">设置系统属性</td>
+</tr>
+
+
+<tr>
+<td class="org-left">setrlimit <resource> <cur> <max></td>
+<td class="org-left">设置资源限制，resource是当前要限制的资源，cur是软限制，max是硬限制</td>
+</tr>
+
+
+<tr>
+<td class="org-left">start <service></td>
+<td class="org-left">启动指定服务</td>
+</tr>
+
+
+<tr>
+<td class="org-left">stop <service></td>
+<td class="org-left">停止指定服务</td>
+</tr>
+
+
+<tr>
+<td class="org-left">symlink <target> <path></td>
+<td class="org-left">创建指向<path>的软连接<target></td>
+</tr>
+
+
+<tr>
+<td class="org-left">sysclktz <mins<sub>west</sub><sub>of</sub><sub>gmt</sub>></td>
+<td class="org-left">设置系统时钟基准</td>
+</tr>
+
+
+<tr>
+<td class="org-left">trigger <event></td>
+<td class="org-left">触发一个事件</td>
+</tr>
+
+
+<tr>
+<td class="org-left">write <path> <string> [<string>\*]</td>
+<td class="org-left">打开路径为<path>的一个文件，并写入一个或多个字符串</td>
+</tr>
+</tbody>
+</table>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Option关键字</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td class="org-left">critial</td>
+<td class="org-left">核心服务，在一定时间内退出多次，将导致系统重启到recovery mode</td>
+</tr>
+
+
+<tr>
+<td class="org-left">disabled</td>
+<td class="org-left">开机时禁用此服务，即开机时不会自动启动此服务，但是可以手动启动</td>
+</tr>
+
+
+<tr>
+<td class="org-left">setenv <name> <value></td>
+<td class="org-left">为服务设置环境变量</td>
+</tr>
+</tbody>
+
+<tbody>
+<tr>
+<td class="org-left">socket <name> <type> <perm> [<user> [<group>]]</td>
+<td class="org-left">创建一个名为/dev/socket/<name>的socket，然后把它的文件描述符传给启动程序。</td>
+</tr>
+
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">类型type的值为dgram或stream。perm表示该socket的访问权限；</td>
+</tr>
+
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">user和group表示该socket所属的用户各组，这两个参数默认为0</td>
+</tr>
+</tbody>
+
+<tbody>
+<tr>
+<td class="org-left">user <username></td>
+<td class="org-left">执行服务前切换到用户<username>，此选项默认是root</td>
+</tr>
+
+
+<tr>
+<td class="org-left">group <groupname> [<groupname>\*]</td>
+<td class="org-left">执行服务前切换到组<groupname>, 默认是root</td>
+</tr>
+
+
+<tr>
+<td class="org-left">oneshot</td>
+<td class="org-left">服务只启动一次，一旦关闭就不能再启动</td>
+</tr>
+
+
+<tr>
+<td class="org-left">class <name></td>
+<td class="org-left">为服务指定一个类别，默认为default, 同一类别的服务必须一起启动和停止</td>
+</tr>
+
+
+<tr>
+<td class="org-left">onrestart <Command></td>
+<td class="org-left">当服务重启时，执行一个Command</td>
+</tr>
+</tbody>
+</table>
+
+
+<p><a id="org508a948"></a></p>
+<h3 id="执行Action，Service与属性服务"><a href="#执行Action，Service与属性服务" class="headerlink" title="执行Action，Service与属性服务"></a>执行Action，Service与属性服务</h3><ul>
+<li><p>init.c中的execute<sub>one</sub><sub>command</sub>, service<sub>start</sub></p>
+</li>
+<li><p>init.c -&gt; main -&gt; action<sub>for</sub><sub>each</sub><sub>trigger</sub> -&gt; builtins.c中的do<sub>class</sub><sub>start</sub> -&gt; service<sub>start</sub><sub>if</sub><sub>not</sub><sub>disabled</sub></p>
+</li>
+<li><p>init.c -&gt; main -&gt; property<sub>init</sub>() 属性服务内存共享区分配 -&gt; property<sub>load</sub><sub>boot</sub><sub>defaults加载</sub>/default.prop文件中的属性 -&gt; property<sub>service</sub><sub>init</sub> -&gt; queue<sub>property</sub><sub>triggers</sub></p>
+<ol>
+<li>property<sub>service</sub><sub>init</sub><sub>action</sub> -&gt; start<sub>property</sub><sub>service</sub> 加载属性文件，创建Socket接收客户端请求</li>
+<li>queue<sub>property</sub><sub>triggers</sub><sub>action</sub> 触发所有以property: 开头的Action</li>
+<li>通过SOCKET实现属性，通讯接口为property<sub>set</sub>, property<sub>get</sub></li>
+</ol>
+</li>
+</ul>
+<p><a id="orgc7d5e68"></a></p>
+<h3 id="进入Java世界"><a href="#进入Java世界" class="headerlink" title="进入Java世界"></a>进入Java世界</h3><ol>
+<li><p>启动zygote虚拟机，通过属性系统获取虚拟机配置信息，调用JNI<sub>CreateJavaVM方法创建虚拟机</sub></p>
+</li>
+<li><p>注册JNI方法，register<sub>jni</sub><sub>procs</sub></p>
+</li>
+<li><p>AndroidRuntime：start -&gt; CallStaticVoidMethod -&gt; ZygoteInit的main 进入Java环境</p>
+<ol>
+<li>注册zygote的Socket, ZygoteInit -&gt; registerZygoteSocket</li>
+<li>预加载Class资源和Resource资源, preload -&gt; preLoadClass, preLoadResources<ol>
+<li>preLoadClass 加载 preloaded-classes 文件中指定的类</li>
+<li>preLoadResources 加载 drawable与color资源，定义在framework/base/core/res/res/values/arrays.xml</li>
+</ol>
+</li>
+<li>ZygoteInit -&gt; startSystemServer 启动system<sub>serve进程</sub><ol>
+<li>通过forkSystemServer -&gt; system<sub>server子进程</sub></li>
+<li>system<sub>server子进程</sub> -&gt; handleSystemServerProcess -&gt; RuntimeInit.zygoteInit<ol>
+<li>redirectLogStream</li>
+<li>commonInit 设置时区，Log配置，HTTP User-Agent，模拟器上的trace调试</li>
+<li>nativeZygoteInit 开启Binder通信</li>
+<li>invodeStaticMain -&gt; com.android.server.SystemServer.main -&gt; throw new ZygoteInit.MethodAndArgsCaller</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>ZygoteInit.main -&gt; catch(ZygoteInit.MethodAndArgsCaller) -&gt; 执行MethodAndArgsCaller的run方法<ol>
+<li>init1 -&gt; 启动Native System Service<ul>
+<li>SurfaceFlinger, SensorService</li>
+<li>AndroidRuntime -&gt; SystemServer.init2</li>
+<li>初始化Binder通信</li>
+</ul>
+</li>
+<li>init2 -&gt; Java System Service<ul>
+<li>Looper.prepare()</li>
+<li>EntropyService, PowerManagerService, ActivityManagerService, TelephonyRegistry, PackageManagerService, WindowManagerService</li>
+<li>startSystemUi</li>
+<li>Watchdog</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>执行runSelectLoopMode方法，通过Socket监听客户端请求。用runOnce处理请求</li>
+</ol>
+</li>
+<li><p>处理Home启动请求</p>
+<p>ActivityManagerService.systemReady -&gt; ActivityStack.resumeTopActivityLocked -&gt; ActivityManagerService.startHomeActivityLocked -&gt; ActivityStack.startActivityLocked -&gt; ActivityStack.startActivityUncheckedLocked -&gt; other startActivityLocked -&gt; other resumeTopActivityLocked -&gt; startSpecificActivityLocked -&gt; startProcessLocked -&gt; Process.start(“android.app.ActivityThread”) -&gt; startViaZygote -&gt; zygoteSendArgsAndGetResult -&gt; Socket -&gt; zygote -&gt; runOnce -&gt; handleChildProc -&gt; android.app.ActivityThread.main</p>
+</li>
+</ol>
+<p><a id="orgcdb405e"></a></p>
+<h2 id="Binder"><a href="#Binder" class="headerlink" title="Binder"></a>Binder</h2><ol>
+<li><p>初始化Binder通信</p>
+</li>
+<li><p>将自身注册为Context管理者</p>
+</li>
+<li><p>循环处理IPC请求</p>
+</li>
+<li><p>Server启动</p>
+<ol>
+<li>创建ProcessState对象</li>
+<li>获取servicemanager代理对象<ul>
+<li>Binder通信接口: IBinder, BBinder（Server对应的Binder对象）, BpBinder（Client访问BBinder的代理对象）</li>
+<li>Binder服务接口：Server端提供的服务，由IServiceManager提供</li>
+<li>Proxy：BpInterface继承自BpRefBase，BpRefBase.mRemote指向Client的BpBinder对象。BpServiceManager实现服务接口中声明的方法</li>
+<li>Stub：BnInterface，BnServerManager</li>
+</ul>
+</li>
+<li>注册Service</li>
+<li>Server进程开启线程池</li>
+</ol>
+</li>
+<li><p>Binder在Native中的实现</p>
+</li>
+<li><p>Binder在Java层中的实现</p>
+</li>
+<li><p>Java系统服务注册过程</p>
+<p>BinderInternal.getContextObject -&gt; IBinder -&gt; ServiceManagerNative.asInteface -&gt; sServiceManager -&gt; addService</p>
+<ol>
+<li>BinderInternal.getContextObject</li>
+<li>ServiceManagerNative.asInterface</li>
+<li>ServiceManagerProxy.addService<ol>
+<li>Java的Service对象写入Parcel中</li>
+<li>使用transact方法进行ipc通信</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>Client获取服务代理</p>
+<ol>
+<li>获取服务的Proxy</li>
+<li>Proxy.Stub.asInterface</li>
+<li>new SomeServer(SomeServerInterface, Thread)</li>
+</ol>
+</li>
+<li><p>Client调用Java系统服务的方法</p>
+</li>
+<li><p>AIDL</p>
+</li>
+</ol>
+<p><a id="orgca9e6a3"></a></p>
+<h2 id="消息通信篇"><a href="#消息通信篇" class="headerlink" title="消息通信篇"></a>消息通信篇</h2><ol>
+<li>Handler.post(Runnable r) -&gt; Handler.sendMessageDelayed(getPostMessage(r), 0) -&gt; Message m.callback = r</li>
+<li>Handler.dispatchMessage -&gt; msg.callback != null -&gt; callback<br>-&gt; msg.handleMessage != null -&gt; callback.handleMessage<br>-&gt; handleMessage</li>
+<li>MessageQueue.IdleHandler</li>
+<li>Message.recycle</li>
+<li>AsyncTask.execute -&gt; executeOnExecutor(SerialExecutor, params) -&gt; SerialExecutor.execute(mFuture)<ul>
+<li>会通过一个ThreadPoolExecutor来执行线程</li>
+</ul>
+</li>
+</ol>
+<p><a id="org24ccfa5"></a></p>
+<h2 id="Package-Manager"><a href="#Package-Manager" class="headerlink" title="Package Manager"></a>Package Manager</h2><ul>
+<li>Permission, Permission Group信息的增加，删除，查询和检查</li>
+<li>扫描并安装和卸载APK包，查询包的UID，GID，包名，系统默认程序</li>
+<li>比较两个包的签名</li>
+<li>查询Activity，Provider、Receiver、Service信息</li>
+<li>查询Application、Package、Resouce、Shared、Library、Feature信息</li>
+<li>Intent匹配</li>
+</ul>
+<p><a id="orgc6c0fa6"></a></p>
+<h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><ul>
+<li><p>adb push -&gt; adb install -r -l -s -&gt; adb uninstall</p>
+</li>
+<li><p>Google Market、PackageInstaller.apk、第三方安装界面</p>
+</li>
+<li><p>PackageManager及其子类、adb与pm命令 -&gt; binder通信 -&gt; PackageManagerService方法</p>
+</li>
+<li><p>PackageManagerService及其相关类 Setting、Installer、FileObserver、DefaultContainerService</p>
+</li>
+</ul>
+<p><a id="org0229d25"></a></p>
+<h3 id="启动-1"><a href="#启动-1" class="headerlink" title="启动"></a>启动</h3><ol>
+<li>SystemServer.Init2() -&gt; ServerThread.run() -&gt; PackageManagerService.main()</li>
+<li>PackageManagerService pms = new PackageManagerService(context, factoryTest, onlyCore)</li>
+<li>创建并初始化Setting对象</li>
+<li>获取系统默认设置</li>
+<li>启动PackageHandler</li>
+<li>创建data目录并初始化UserManager</li>
+<li>解析data/system目录下的package.xml、packages-backup.xml</li>
+<li>dexopt优化</li>
+<li>启动FileObserver监控APK文件的目录</li>
+<li>调用scanDirLI扫描并安装APK</li>
+<li>writeLPr更新package.xml, packages-backup.xml</li>
+</ol>
+<p>uid &gt;= FIRST<sub>APPLICATION</sub><sub>UID</sub> 或者 uid &lt; FIRST<sub>APPLICATION</sub><sub>UID</sub>，FIST<sub>APPLICATION</sub><sub>UID</sub> &lt; 10000为系统程序UID。</p>
+<ol>
+<li><permission>
+
+<ul>
+<li><group>用于为指定的组ID分配权限</li>
+<li>&lt;assign<sub>permission</sub>&gt;用于为指定的用户ID分配指定的权限</li>
+<li><library>指定的系统扩展库</li>
+</ul>
+</li>
+<li><feature>
+
+<ul>
+<li>Hardware feature 指定当前设备支持的硬件特性：Audio、Bluetooth、Camera、Location、Microphone、NFC、Sensors、Screen、Telephony、Touchscreen、USB、WIFI。</li>
+<li>Software feature SIP VOIP</li>
+</ul>
+<p>PackageManager的hasSystemFeature, getSystemAvailableFeatures</p>
+</li>
+<li><p>FileObserver监控</p>
+<ul>
+<li>system/framework</li>
+<li>system/app</li>
+<li>vendor/app</li>
+<li>data/app</li>
+<li>data/app-private</li>
+</ul>
+</li>
+<li><p>scanDirLI</p>
+<ul>
+<li>system/framework/</li>
+<li>system/app/</li>
+<li>vendor/app/</li>
+<li>data/app</li>
+<li>data/app-private</li>
+</ul>
+</li>
+</ol>
+<p><a id="orgd6f62b7"></a></p>
+<h3 id="APK安装过程"><a href="#APK安装过程" class="headerlink" title="APK安装过程"></a>APK安装过程</h3><ul>
+<li>读取目录</li>
+<li>解析AndroidManifest.xml</li>
+</ul>
+<p><a id="org094957a"></a></p>
+<h2 id="Activity-Manager"><a href="#Activity-Manager" class="headerlink" title="Activity Manager"></a>Activity Manager</h2><p><a id="org92e1626"></a></p>
+<h3 id="机制与实现"><a href="#机制与实现" class="headerlink" title="机制与实现"></a>机制与实现</h3><ul>
+<li>启动、杀死应用程序</li>
+<li>启动并调度Activity生命周期</li>
+<li>启动并调度应用程序Service生命周期</li>
+<li>注册Broadcast Receiver，并接收和分发Broadcast</li>
+<li>启动并发布Content Provider</li>
+<li>调度Task</li>
+<li>检查、授予、收回访问URI权限</li>
+<li>处理crash</li>
+<li>调整进程调度优先级及策略</li>
+<li>查询当前系统运行状态</li>
+</ul>
+<p>ActivityThread：管理应用程序所在进程的主线程的执行调度和运行Activities，broadcast</p>
+<p>Instrumentation：应用程序测量工具基类，用于监控系统与应用程序间的交互</p>
+<p>ContextImpl：context的通用实现类</p>
+<p>Context2： 可以获取应用程序运行环境中的一些全局信息的接口</p>
+<p>Application：一个可以维护全局的应用程序状态的基类</p>
+<ol>
+<li>初始化一个单例的Context对象，使其与Resource、LoadApk、ActivityThread、ApplicationContentResolver关联</li>
+<li>创建Application对象，并与Context关联</li>
+<li>创建ActivityStack类，管理Activity栈并维护其状态</li>
+<li>startRunning</li>
+<li>ActivityManagerService.setSystemProcess</li>
+<li>installSystemProviders</li>
+<li>查询、安装Content Provider -&gt; publishContentProvider</li>
+<li>systemReady<ol>
+<li>发送ACTION<sub>PRE</sub><sub>BOOT</sub><sub>COMPLETED广播</sub>：CalendarProvider、ContactsProvider、MediaProvider</li>
+<li>清理预启动的非persistent进程</li>
+<li>读取Settings配置： always<sub>finish</sub><sub>activities</sub></li>
+<li>Runnable回调接口：SystemUIService、BatteryService、NetworkManagementService、Watchdog</li>
+<li>启动persistent应用和Home</li>
+<li>发送ACTION<sub>BOOT</sub><sub>COMPLETED广播</sub></li>
+</ol>
+</li>
+</ol>
+<p><a id="orgd6f15d9"></a></p>
+<h3 id="应用程序Activity的启动和调度"><a href="#应用程序Activity的启动和调度" class="headerlink" title="应用程序Activity的启动和调度"></a>应用程序Activity的启动和调度</h3><p>Launcher.onClick -&gt; Launcher.startActivitySafely -&gt; Launcher.startActivity -&gt; Launch.parent.startActivity -&gt; Activity.startActivityForResult(requestCode = -1) -&gt; Instrumentation.execStartActivity -&gt; ActivityManagerProxy.startActivity -&gt; BinderProxy.transact(START<sub>ACTIVITY</sub><sub>TRANSACTION</sub>)</p>
+<p>ActivityManagerService.startActivityMayWait -&gt; ActivityStack.startActivityLock -&gt; ActivityStack.startActivityUncheckedLocked -&gt; ActivityStack.startActivityLocked -&gt; ActivityStack.resumeTopActivity</p>
+<p>ActivityManagerService.startActivityMayWait</p>
+<p>int index = indexOfTokenLocked -&gt; resultCode = mHistory.get(index) -&gt; sendActivityResultLocked</p>
+<p>FLAG<sub>ACTIVITY</sub><sub>NEW</sub><sub>TASK</sub>：</p>
+<ul>
+<li>sourceRecord == null (由Launch或者adb start)</li>
+<li>sourceRecord 启动模式为singleInstance</li>
+<li>要启动的目标为singleInstance或者singleTask</li>
+</ul>
+<p>用户行为导致Activity切换 -&gt; 回调Activity.onUserLeaveHint</p>
+<p>可利用Task：</p>
+<ul>
+<li>目标非singleInstance：<ol>
+<li>ActivityRecord.affinity == Activity.affinity</li>
+<li>ActivityRecord.Task.Intent.Component == Activity.Component</li>
+<li>ActivityRecord.Task.affinityIntent.Component == Activity.Component</li>
+</ol>
+</li>
+<li>目标为singleInstance，ActivityRecord.Task.Intent.Component == Activity.Component</li>
+</ul>
+<p>启动Activity的第二个阶段为Pause</p>
+<ol>
+<li>ActivityStack.startPausingLocked</li>
+<li>schedulePauseActivity</li>
+<li>handlePauseActivity</li>
+<li>performPauseActivity</li>
+<li>activityPaused</li>
+<li>completedPauseLocked</li>
+</ol>
+<p>启动应用程序进程</p>
+<ul>
+<li>会根据新的Activity是否占满屏来决定前一个Activity是否可见</li>
+<li>如果systemReady 没有设为true，则先启动的应用程序都加入mProcessesOnHold列表中等待</li>
+</ul>
+<p>加载应用程序Activity</p>
+<ul>
+<li>ActivityThread.main创建出程序主线程</li>
+<li>ActivityThread.attch将应用程序加入到ActivityManagerService中</li>
+<li>ActivityManagerService.attachApplication</li>
+<li>ApplicationThread.bindApplication</li>
+<li>ActivityThread.handleBindApplication<ol>
+<li>设置进程名</li>
+<li>低内存设备禁用硬件加速</li>
+<li>创建应用程序对应的Application</li>
+<li>安装ContentProvider</li>
+<li>Instrumentation的onCreate方法</li>
+<li>Application的onCreate方法</li>
+</ol>
+</li>
+</ul>
+<p>显示Activity</p>
+<ol>
+<li><p>ActivityStack.realStartActivityLocked：加载Activity，onCreate，onStart，onResume。会通过WindowManagerService冻结屏幕并设置Activity可见。</p>
+</li>
+<li><p>handleLaunchActivity -&gt; performLaunchActivity -&gt; newActivity -&gt; makeApplication -&gt; init -&gt; attach -&gt; callActivityOnCreate -&gt; performCreate -&gt; onCreate -&gt; performStart -&gt; callActivityOnStart -&gt; onStart -&gt; callActivityOnPostCreate -&gt; onPostCreate</p>
+</li>
+<li><p>handleResumeActivity -&gt; performResumeActivity -&gt; onResume 控制可见性，如果在onResume时，又启动另一个Activity则窗口变不可见，黑屏可能由此来。onResume之前可能会有onNewIntent与onActivityResult调用</p>
+</li>
+<li><p>如果当前Activity处于stop状态，onRestart -&gt; onStart -&gt; onResume -》onPostResme</p>
+</li>
+<li><p>Activity.finish只是标志一下Activity处于完成的状态，会在IdleHandle线程中销毁</p>
+</li>
+</ol>
+<p>停止源Activity，在目标Activity的onCreate、onStart、onResume、activityIdleInternal执行后，开始停止源Activity。</p>
+<ol>
+<li>FLAG<sub>ACTIVITY</sub><sub>NO</sub><sub>HISTORY启动标记的Activity是不会被放入栈中的</sub>。</li>
+<li>onSaveInstanceState -》 onStop</li>
+<li>StopInfo通知ActivityManagerService停止Activity的操作完成</li>
+</ol>
+<p><a id="org0d6dbed"></a></p>
+<h3 id="Activity-Manager进程管理"><a href="#Activity-Manager进程管理" class="headerlink" title="Activity Manager进程管理"></a>Activity Manager进程管理</h3><p>非隐藏进程：</p>
+<ul>
+<li>有可见但非前台的activity</li>
+<li>有可见activity，该进程未被完全覆盖的Activity</li>
+<li>处于Pausing和Paused状态的activity</li>
+<li>处于STOPPING状态的Activity</li>
+<li>AMS.setProcessForeground</li>
+<li>HOME进程</li>
+<li>运行在内核空间中的进程</li>
+<li>当前线程的上一个线程</li>
+<li>备份线程</li>
+</ul>
+<p>/sys/module/lowmemorykiller/paramerters/adj 优先级数<br>/sys/module/lowmemorykiller/paramerters/minfree 对应的内存阀值</p>
+<p>lowmem<sub>shrink</sub>:</p>
+<ul>
+<li>OOM adj越大的进程越容易被杀</li>
+<li>相同OOM adj的进程，占用内存越大的越容易被杀</li>
+<li>未达到最小内存阈值的最大值时，不会杀</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://horsefaced.github.io/2020/09/06/android%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-id="ckeqqysj3001tc59kft9d7e31" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/09/06/%E8%A3%85%E5%A4%87%E6%B8%85%E5%8D%95/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/09/06/20151001%E9%B3%8C%E5%A4%AA%E8%A3%85%E5%A4%87%E6%B8%85%E5%8D%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%92%96%E5%95%A1/">咖啡</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%88%B7%E5%A4%96/">户外</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%85%E8%A1%8C/">旅行</a></li></ul>
     </div>
   </div>
 
-  <div id="comments" ></div>
-  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/" rel="tag">android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/artemis-mqtt-program/" rel="tag">artemis mqtt program</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cesium/" rel="tag">cesium</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%B0%E6%B9%BE/" rel="tag">台湾</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%88%B7%E5%A4%96/" rel="tag">户外</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%85%E8%A1%8C/" rel="tag">旅行</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%87%AA%E8%A1%8C%E8%BD%A6/" rel="tag">自行车</a></li></ul>
+    </div>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-  {# <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-  # <script>
-  # var gitment = new Gitment({
-  #   owner: 'horsefaced',
-  #   repo: 'blogs',
-  #   oauth: {
-  #     client_id: '929f91afe871a827c8a4',
-  #     client_secret: '2462f2ea19193956cd2a5ab40ed903cb5b0bef56',
-  #   },
-  # })
-  # gitment.render('comments')
-  # </script> #}
-{% endblock %}
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/artemis-mqtt-program/" style="font-size: 10px;">artemis mqtt program</a> <a href="/tags/cesium/" style="font-size: 10px;">cesium</a> <a href="/tags/%E5%8F%B0%E6%B9%BE/" style="font-size: 20px;">台湾</a> <a href="/tags/%E6%88%B7%E5%A4%96/" style="font-size: 10px;">户外</a> <a href="/tags/%E6%97%85%E8%A1%8C/" style="font-size: 20px;">旅行</a> <a href="/tags/%E8%87%AA%E8%A1%8C%E8%BD%A6/" style="font-size: 20px;">自行车</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/09/06/%E9%A3%9F%E7%89%A9%E5%8F%82%E8%80%83/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/06/%E8%A3%85%E5%A4%87%E6%B8%85%E5%8D%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/06/android%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/06/20151001%E9%B3%8C%E5%A4%AA%E8%A3%85%E5%A4%87%E6%B8%85%E5%8D%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/06/20151001%E9%B3%8C%E5%A4%AAUL%E6%B8%85%E5%8D%95/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 马面<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,51 +1,242 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>如何在android上判断是否有相机与录音的权限 | 大道废</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Android本身有提供checkPermission(String, String)这一系列的函数来检查某个程序是否有某个权限。但这系列数实际上是在检查AndroidManifest里那user-permission里是否写上了某个权限。大家都知道，这根本行不通，因为安装时那些权限根本没地方让用户部分接受。用户要么全接受一个普通的程序居然有定位读通讯录删除短信这种权限，要么就完全的不能装这个程序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何在android上判断是否有相机与录音的权限">
+<meta property="og:url" content="http://horsefaced.github.io/2015/05/17/%E5%A6%82%E4%BD%95%E5%9C%A8%E5%AE%89%E5%8D%93%E4%B8%8A%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E6%9C%89%E7%9B%B8%E6%9C%BA%E4%B8%8E%E5%BD%95%E9%9F%B3%E7%9A%84%E6%9D%83%E9%99%90/index.html">
+<meta property="og:site_name" content="大道废">
+<meta property="og:description" content="Android本身有提供checkPermission(String, String)这一系列的函数来检查某个程序是否有某个权限。但这系列数实际上是在检查AndroidManifest里那user-permission里是否写上了某个权限。大家都知道，这根本行不通，因为安装时那些权限根本没地方让用户部分接受。用户要么全接受一个普通的程序居然有定位读通讯录删除短信这种权限，要么就完全的不能装这个程序">
+<meta property="og:locale">
+<meta property="article:published_time" content="2015-05-16T16:00:00.000Z">
+<meta property="article:modified_time" content="2017-10-11T13:10:44.000Z">
+<meta property="article:author" content="马面">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="大道废" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
 
+  
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<meta name="generator" content="Hexo 5.1.1"></head>
 
-{% block page_class %}page-post-detail{% endblock %}
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">大道废</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://horsefaced.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-如何在安卓上判断是否有相机与录音的权限" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/05/17/%E5%A6%82%E4%BD%95%E5%9C%A8%E5%AE%89%E5%8D%93%E4%B8%8A%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E6%9C%89%E7%9B%B8%E6%9C%BA%E4%B8%8E%E5%BD%95%E9%9F%B3%E7%9A%84%E6%9D%83%E9%99%90/" class="article-date">
+  <time datetime="2015-05-16T16:00:00.000Z" itemprop="datePublished">2015-05-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/android/">android</a>
+  </div>
 
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      如何在android上判断是否有相机与录音的权限
+    </h1>
+  
 
-{% block content %}
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android本身有提供<code>checkPermission(String, String)</code>这一系列的函数来检查某个程序是否有某个权限。但这系列数实际上是在检查AndroidManifest里那<code>user-permission</code>里是否写上了某个权限。大家都知道，这根本行不通，因为安装时那些权限根本没地方让用户部分接受。用户要么全接受一个普通的程序居然有定位读通讯录删除短信这种权限，要么就完全的不能装这个程序了。在一些android机子上，比如华为，会有权限管理这一项。里面可以将程序的一些权限关掉，比如定位、读通讯录、相机还有录音之类的。这个设置就无法通过<code>checkPermission(String, String)</code>这一系列的函数来得到正确的结果了。</p>
+<a id="more"></a>
+<p>本人在项目中还没有用到通讯录权限，但有用到相机与录音，于是本文就集中于相机与录音的权限判断上了。其实代码很简单，具体做法就是在实际操作前先操作一遍录音与相机，看是否能得到结果，如果不能就说明对应的权限没有开放，以下为代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasPermission</span><span class="params">(String permission)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">switch</span> (permission) &#123;</span><br><span class="line">	<span class="keyword">case</span> Manifest.permission.CAMERA:</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">               <span class="comment">//实际测试说明如果关闭了相机权限，在camera.open的时候会返回RuntimeException</span></span><br><span class="line">			Camera camera = Camera.open();</span><br><span class="line">			camera.release();</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (RuntimeException e) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="keyword">case</span> Manifest.permission.RECORD_AUDIO:</span><br><span class="line">		MediaRecorder recorder = <span class="keyword">new</span> MediaRecorder();</span><br><span class="line">		recorder.reset();</span><br><span class="line">		recorder.setAudioSource(MediaRecorder.AudioSource.MIC);</span><br><span class="line">		recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);</span><br><span class="line">		recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);</span><br><span class="line">		String file = Dict.FILE_PATH.USER_CHAT + SysUtils.getRandomString() + <span class="string">&quot;.aac&quot;</span>;</span><br><span class="line">		recorder.setOutputFile(file);</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			recorder.prepare();</span><br><span class="line">			recorder.start();</span><br><span class="line">			File soundFile = <span class="keyword">new</span> File(file);</span><br><span class="line">               <span class="comment">//实际测试说明如果关闭了录音权限，因为无法得到数据流，就不会建立对应的输出文件</span></span><br><span class="line">			<span class="keyword">return</span> soundFile.exists();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IllegalStateException | IOException e) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">		&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">			recorder.stop();</span><br><span class="line">			recorder.release();</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		<span class="keyword">return</span> getApplication().getPackageManager().checkPermission(permission, MedicalApp.getInstance().getPackageName()) == PackageManager.PERMISSION_GRANTED;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+<p>这里就只实现了相机与录音两个权限的判断，其它的判断等到要使用时再更新。</p>
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://horsefaced.github.io/2015/05/17/%E5%A6%82%E4%BD%95%E5%9C%A8%E5%AE%89%E5%8D%93%E4%B8%8A%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E6%9C%89%E7%9B%B8%E6%9C%BA%E4%B8%8E%E5%BD%95%E9%9F%B3%E7%9A%84%E6%9D%83%E9%99%90/" data-id="ckeqqysic0002c59k5v3v9q2r" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/05/17/%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%E5%AE%89%E5%8D%93%E5%AD%97%E4%BD%93/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          如何在android方便的修改字体
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%92%96%E5%95%A1/">咖啡</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%88%B7%E5%A4%96/">户外</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%85%E8%A1%8C/">旅行</a></li></ul>
     </div>
   </div>
 
-  <div id="comments" ></div>
-  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/" rel="tag">android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/artemis-mqtt-program/" rel="tag">artemis mqtt program</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cesium/" rel="tag">cesium</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%B0%E6%B9%BE/" rel="tag">台湾</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%88%B7%E5%A4%96/" rel="tag">户外</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%85%E8%A1%8C/" rel="tag">旅行</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%87%AA%E8%A1%8C%E8%BD%A6/" rel="tag">自行车</a></li></ul>
+    </div>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-  {# <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-  # <script>
-  # var gitment = new Gitment({
-  #   owner: 'horsefaced',
-  #   repo: 'blogs',
-  #   oauth: {
-  #     client_id: '929f91afe871a827c8a4',
-  #     client_secret: '2462f2ea19193956cd2a5ab40ed903cb5b0bef56',
-  #   },
-  # })
-  # gitment.render('comments')
-  # </script> #}
-{% endblock %}
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/artemis-mqtt-program/" style="font-size: 10px;">artemis mqtt program</a> <a href="/tags/cesium/" style="font-size: 10px;">cesium</a> <a href="/tags/%E5%8F%B0%E6%B9%BE/" style="font-size: 20px;">台湾</a> <a href="/tags/%E6%88%B7%E5%A4%96/" style="font-size: 10px;">户外</a> <a href="/tags/%E6%97%85%E8%A1%8C/" style="font-size: 20px;">旅行</a> <a href="/tags/%E8%87%AA%E8%A1%8C%E8%BD%A6/" style="font-size: 20px;">自行车</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/09/06/%E9%A3%9F%E7%89%A9%E5%8F%82%E8%80%83/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/06/%E8%A3%85%E5%A4%87%E6%B8%85%E5%8D%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/06/android%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/06/20151001%E9%B3%8C%E5%A4%AA%E8%A3%85%E5%A4%87%E6%B8%85%E5%8D%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/06/20151001%E9%B3%8C%E5%A4%AAUL%E6%B8%85%E5%8D%95/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 马面<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,51 +1,378 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>大道废</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Table of Contents            食物名称 口感 重量      科尔沁风干牛肉（原味） 口感不错，香脆。但有点过咸，当路粮吃可以，当配菜不行。当路粮吃时会有大量饮水的问题 &amp;#xa0;     宝矿力水特冲剂 口感不错，与成品水一样，很清爽 &amp;#xa0;     NUUN可乐味 真是难喝到奇皅 &amp;#xa0;     H5ZERO柚子味 真是不错，可以再喝 &amp;#xa0;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大道废">
+<meta property="og:url" content="http://horsefaced.github.io/2020/09/06/%E9%A3%9F%E7%89%A9%E5%8F%82%E8%80%83/index.html">
+<meta property="og:site_name" content="大道废">
+<meta property="og:description" content="Table of Contents            食物名称 口感 重量      科尔沁风干牛肉（原味） 口感不错，香脆。但有点过咸，当路粮吃可以，当配菜不行。当路粮吃时会有大量饮水的问题 &amp;#xa0;     宝矿力水特冲剂 口感不错，与成品水一样，很清爽 &amp;#xa0;     NUUN可乐味 真是难喝到奇皅 &amp;#xa0;     H5ZERO柚子味 真是不错，可以再喝 &amp;#xa0;">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-09-06T07:00:31.295Z">
+<meta property="article:modified_time" content="2020-09-06T07:00:31.295Z">
+<meta property="article:author" content="马面">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="大道废" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">大道废</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://horsefaced.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-食物参考" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/06/%E9%A3%9F%E7%89%A9%E5%8F%82%E8%80%83/" class="article-date">
+  <time datetime="2020-09-06T07:00:31.295Z" itemprop="datePublished">2020-09-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Table-of-Contents"><a href="#Table-of-Contents" class="headerlink" title="Table of Contents"></a>Table of Contents</h1><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<colgroup>
+<col  class="org-left" />
 
-{% block page_class %}page-post-detail{% endblock %}
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">食物名称</th>
+<th scope="col" class="org-left">口感</th>
+<th scope="col" class="org-right">重量</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td class="org-left">科尔沁风干牛肉（原味）</td>
+<td class="org-left">口感不错，香脆。但有点过咸，当路粮吃可以，当配菜不行。当路粮吃时会有大量饮水的问题</td>
+<td class="org-right">&#xa0;</td>
+</tr>
 
 
-{% block content %}
+<tr>
+<td class="org-left">宝矿力水特冲剂</td>
+<td class="org-left">口感不错，与成品水一样，很清爽</td>
+<td class="org-right">&#xa0;</td>
+</tr>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+<tr>
+<td class="org-left">NUUN可乐味</td>
+<td class="org-left">真是难喝到奇皅</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+
+
+<tr>
+<td class="org-left">H5ZERO柚子味</td>
+<td class="org-left">真是不错，可以再喝</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+
+
+<tr>
+<td class="org-left">牛肉泡馍</td>
+<td class="org-left">酱包放一半味道非常好，吃不太饱，要配其它主食</td>
+<td class="org-right">178</td>
+</tr>
+
+
+<tr>
+<td class="org-left">糊辣汤</td>
+<td class="org-left">一小包可以泡一升这种子，可以吃饱的感觉。可加紫菜豆腐</td>
+<td class="org-right">90</td>
+</tr>
+
+
+<tr>
+<td class="org-left">士力架</td>
+<td class="org-left">天冷时很好吃</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+
+
+<tr>
+<td class="org-left">羊肉泡馍</td>
+<td class="org-left">酱包放一半</td>
+<td class="org-right">192</td>
+</tr>
+
+
+<tr>
+<td class="org-left">千石谷熟化米</td>
+<td class="org-left">真的是非常难吃的东西，以后不要买了</td>
+<td class="org-right">124</td>
+</tr>
+
+
+<tr>
+<td class="org-left">各种意大利面</td>
+<td class="org-left">分量很足，但太费火了，不合适重装户外，一两日吃吃可以</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+
+
+<tr>
+<td class="org-left">维维嚼益嚼（苹果味）</td>
+<td class="org-left">味道不错，有苹果的味道，口感与果条很像</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+
+
+<tr>
+<td class="org-left">维维嚼益嚼（芒果椰子）</td>
+<td class="org-left">有很浓的芒果味道，椰子味道没吃出来</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+
+
+<tr>
+<td class="org-left">维维嚼益嚼（红枣）</td>
+<td class="org-left">枣味非常浓，很像月饼</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+
+
+<tr>
+<td class="org-left">维维嚼益嚼（葡萄干）</td>
+<td class="org-left">味道不好吃，相对其它口味来说味道有点惨</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+
+
+<tr>
+<td class="org-left">维维嚼益嚼（山楂）</td>
+<td class="org-left">味道好像红枣</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+
+
+<tr>
+<td class="org-left">KOKA 原味鸡汤面</td>
+<td class="org-left">味道很清爽，鸡汤味很好，吃过不会口干</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+
+
+<tr>
+<td class="org-left">7COIN 泰式冬荫功风味</td>
+<td class="org-left">很浓的柠檬酸味，口味有点重，一点点的辣</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+
+
+<tr>
+<td class="org-left">喜达（sedoop）捞面原味</td>
+<td class="org-left">原味就是一种冬荫功的感觉，不过捞面看着美好，户外做起来要准备两个碗也是麻烦了点。</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+
+
+<tr>
+<td class="org-left">尾西</td>
+<td class="org-left">来自日本,于是很合适中国人的口味,比较清淡,就是份量不太足</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://horsefaced.github.io/2020/09/06/%E9%A3%9F%E7%89%A9%E5%8F%82%E8%80%83/" data-id="ckeqqysj0001ic59kb8lgfvmu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/09/06/%E8%A3%85%E5%A4%87%E6%B8%85%E5%8D%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%92%96%E5%95%A1/">咖啡</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%88%B7%E5%A4%96/">户外</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%97%85%E8%A1%8C/">旅行</a></li></ul>
     </div>
   </div>
 
-  <div id="comments" ></div>
-  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/" rel="tag">android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/artemis-mqtt-program/" rel="tag">artemis mqtt program</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cesium/" rel="tag">cesium</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%B0%E6%B9%BE/" rel="tag">台湾</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%88%B7%E5%A4%96/" rel="tag">户外</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%85%E8%A1%8C/" rel="tag">旅行</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%87%AA%E8%A1%8C%E8%BD%A6/" rel="tag">自行车</a></li></ul>
+    </div>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-  {# <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-  # <script>
-  # var gitment = new Gitment({
-  #   owner: 'horsefaced',
-  #   repo: 'blogs',
-  #   oauth: {
-  #     client_id: '929f91afe871a827c8a4',
-  #     client_secret: '2462f2ea19193956cd2a5ab40ed903cb5b0bef56',
-  #   },
-  # })
-  # gitment.render('comments')
-  # </script> #}
-{% endblock %}
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/artemis-mqtt-program/" style="font-size: 10px;">artemis mqtt program</a> <a href="/tags/cesium/" style="font-size: 10px;">cesium</a> <a href="/tags/%E5%8F%B0%E6%B9%BE/" style="font-size: 20px;">台湾</a> <a href="/tags/%E6%88%B7%E5%A4%96/" style="font-size: 10px;">户外</a> <a href="/tags/%E6%97%85%E8%A1%8C/" style="font-size: 20px;">旅行</a> <a href="/tags/%E8%87%AA%E8%A1%8C%E8%BD%A6/" style="font-size: 20px;">自行车</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/09/06/%E9%A3%9F%E7%89%A9%E5%8F%82%E8%80%83/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/06/%E8%A3%85%E5%A4%87%E6%B8%85%E5%8D%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/06/android%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/06/20151001%E9%B3%8C%E5%A4%AA%E8%A3%85%E5%A4%87%E6%B8%85%E5%8D%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/06/20151001%E9%B3%8C%E5%A4%AAUL%E6%B8%85%E5%8D%95/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 马面<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>
