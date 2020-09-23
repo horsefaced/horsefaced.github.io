@@ -172,7 +172,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-09-23 19:20:48 / Modified: 19:49:03" itemprop="dateCreated datePublished" datetime="2020-09-23T19:20:48+08:00">2020-09-23</time>
+              <time title="Created: 2020-09-23 19:20:48 / Modified: 19:50:54" itemprop="dateCreated datePublished" datetime="2020-09-23T19:20:48+08:00">2020-09-23</time>
             </span>
 
           
@@ -218,20 +218,20 @@
 <ol>
 <li>进入<a target="_blank" rel="noopener" href="https://github.com/AgoraIO/Tools">AgoraIO in GitHub</a>，点击页面上那个绿色的Code按钮</li>
 </ol>
-<p><img src="2020-09-23-%E5%A6%82%E4%BD%95%E5%9C%A8-NET-Core%E4%B8%8A%E5%BB%BA%E7%AB%8BAgora%E7%9A%84AccessToken%E6%9C%8D%E5%8A%A1/image-20200913170057183.png" alt="image-20200913170057183"></p>
+<p><img src="2020-09-23-%E5%A6%82%E4%BD%95%E5%9C%A8-NET-Core%E4%B8%8A%E5%BB%BA%E7%AB%8BAgora%E7%9A%84AccessToken%E6%9C%8D%E5%8A%A1/image-20200913170057183.png"></p>
 <ol start="2">
 <li>如果你会 Git 那么可以直接在其他目录中，<strong>注意不要直接在上一章节建立的 AgoraTokenServer 项目目录中</strong>，把项目克隆下来。</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/AgoraIO/Tools.git</span><br></pre></td></tr></table></figure>
 
 <p>​            如果你不会 Git ，可以直接点击 Download ZIP 将其下载下来并解压缩。</p>
-<p><img src="2020-09-23-%E5%A6%82%E4%BD%95%E5%9C%A8-NET-Core%E4%B8%8A%E5%BB%BA%E7%AB%8BAgora%E7%9A%84AccessToken%E6%9C%8D%E5%8A%A1/image-20200913172902977.png" alt="image-20200913172902977"></p>
+<p><img src="2020-09-23-%E5%A6%82%E4%BD%95%E5%9C%A8-NET-Core%E4%B8%8A%E5%BB%BA%E7%AB%8BAgora%E7%9A%84AccessToken%E6%9C%8D%E5%8A%A1/image-20200913172902977.png"></p>
 <ol start="3">
 <li><p>进入刚刚 Git 克隆或者下载解压缩后的目录</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> Tools/DynamicKey/AgoraDynamicKey/csharp/src/AgoraIO</span><br></pre></td></tr></table></figure>
 
 <p>将其中的 Common、Extensions、Media、Utils 四个目录直接拷贝至你创建的 AgoraTokenServer 目录下，之后你的 AgoraTokenServer 目录结构应该是如下图这样子的：</p>
-<p><img src="2020-09-23-%E5%A6%82%E4%BD%95%E5%9C%A8-NET-Core%E4%B8%8A%E5%BB%BA%E7%AB%8BAgora%E7%9A%84AccessToken%E6%9C%8D%E5%8A%A1/image-20200913174340000.png" alt="image-20200913174340000"></p>
+<p><img src="2020-09-23-%E5%A6%82%E4%BD%95%E5%9C%A8-NET-Core%E4%B8%8A%E5%BB%BA%E7%AB%8BAgora%E7%9A%84AccessToken%E6%9C%8D%E5%8A%A1/image-20200913174340000.png"></p>
 </li>
 </ol>
 <h3 id="解决依赖"><a href="#解决依赖" class="headerlink" title="解决依赖"></a>解决依赖</h3><p>你会发现上图中 Media/AccessToken.cs 是红色的，那是因为这个项目依赖于<a target="_blank" rel="noopener" href="https://www.nuget.org/packages/Crc32.NET/">Crc32.NET</a>这个包，如果你正确的安装了 .NET Core 的运行时和命令行工具的话 我们直接使用命令行将其安装就可以了。</p>
@@ -269,7 +269,7 @@
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> <span class="title">AgoraTokenServer.Models</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">AuthenticateResponse</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> channel &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">dynamic</span> uid &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> token &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>现在项目的结构如下图：</p>
-<p><img src="2020-09-23-%E5%A6%82%E4%BD%95%E5%9C%A8-NET-Core%E4%B8%8A%E5%BB%BA%E7%AB%8BAgora%E7%9A%84AccessToken%E6%9C%8D%E5%8A%A1/image-20200913194237623.png" alt="image-20200913194237623"></p>
+<p><img src="2020-09-23-%E5%A6%82%E4%BD%95%E5%9C%A8-NET-Core%E4%B8%8A%E5%BB%BA%E7%AB%8BAgora%E7%9A%84AccessToken%E6%9C%8D%E5%8A%A1/image-20200913194237623.png"></p>
 </li>
 </ol>
 <h3 id="创建服务"><a href="#创建服务" class="headerlink" title="创建服务"></a>创建服务</h3><ol>
@@ -304,11 +304,11 @@
 <h2 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h2><p>在本文中，使用<a href="www.postman.com">Postman</a>对服务进行测试，大家可以使用自己习惯的工具。在具体的请求中，因为 expiredTS 和 role 在程序中有缺省值，所以请求中就可以忽略，并且在现阶段，role 只有一个值，所以推荐可以暂时忽略这个。而 expiredTS 的具体用法，可以参考Agora官方网站的<a target="_blank" rel="noopener" href="https://docs.agora.io/cn/Video/token_server_cpp?platform=CPP">生成Token</a>一文中的说明。</p>
 <p><img src="2020-09-23-%E5%A6%82%E4%BD%95%E5%9C%A8-NET-Core%E4%B8%8A%E5%BB%BA%E7%AB%8BAgora%E7%9A%84AccessToken%E6%9C%8D%E5%8A%A1/image-20200913214230336.png" alt="image-20200913214230336"></p>
 <p>具体的 Postman 请求结果如下图所示。</p>
-<p><img src="2020-09-23-%E5%A6%82%E4%BD%95%E5%9C%A8-NET-Core%E4%B8%8A%E5%BB%BA%E7%AB%8BAgora%E7%9A%84AccessToken%E6%9C%8D%E5%8A%A1/image-20200913213711509.png" alt="image-20200913213711509"></p>
+<p><img src="2020-09-23-%E5%A6%82%E4%BD%95%E5%9C%A8-NET-Core%E4%B8%8A%E5%BB%BA%E7%AB%8BAgora%E7%9A%84AccessToken%E6%9C%8D%E5%8A%A1/image-20200913213711509.png"></p>
 <p>如果你在使用 Postman 发送请求的时候发生了下图的错误：</p>
-<p><img src="2020-09-23-%E5%A6%82%E4%BD%95%E5%9C%A8-NET-Core%E4%B8%8A%E5%BB%BA%E7%AB%8BAgora%E7%9A%84AccessToken%E6%9C%8D%E5%8A%A1/image-20200913214838643.png" alt="image-20200913214838643"></p>
+<p><img src="2020-09-23-%E5%A6%82%E4%BD%95%E5%9C%A8-NET-Core%E4%B8%8A%E5%BB%BA%E7%AB%8BAgora%E7%9A%84AccessToken%E6%9C%8D%E5%8A%A1/image-20200913214838643.png"></p>
 <p>是因为你现在访问的 https 链接使用的证书是无效的，实际使用中你需要部署真实的证书，测试阶段你可以通过下图的 Settings 按钮将第一个 Enable SSL certificate verification 关闭</p>
-<p><img src="2020-09-23-%E5%A6%82%E4%BD%95%E5%9C%A8-NET-Core%E4%B8%8A%E5%BB%BA%E7%AB%8BAgora%E7%9A%84AccessToken%E6%9C%8D%E5%8A%A1/image-20200913215607065.png" alt="image-20200913215607065"></p>
+<p><img src="2020-09-23-%E5%A6%82%E4%BD%95%E5%9C%A8-NET-Core%E4%B8%8A%E5%BB%BA%E7%AB%8BAgora%E7%9A%84AccessToken%E6%9C%8D%E5%8A%A1/image-20200913215607065.png"></p>
 <h2 id="完成"><a href="#完成" class="headerlink" title="完成"></a>完成</h2><p>到现在为止，基于 .NET Core 的 Agora Token 服务已经开发完成。在实际使用中，还需要添加安全机制，这个可以根据你自己的具体架构情况进行完善。</p>
 <p>.NET Core 的 docker 化可以参考微软的 <a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/dotnet/core/docker/introduction">Docker 容器</a> 这编文章。</p>
 <p>本文的所有代码都可以在 <a target="_blank" rel="noopener" href="https://github.com/horsefaced/AgoraTokenServer-For-NET-Core">GitHub</a> 上下载。</p>
