@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://horsefaced.github.io/2020/09/23/%E5%A6%82%E4%BD%95%E5%9C%A8-NET-Core%E4%B8%8A%E5%BB%BA%E7%AB%8BAgora%E7%9A%84AccessToken%E6%9C%8D%E5%8A%A1/</loc>
+    
+    <lastmod>2020-09-23</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://horsefaced.github.io/2015/05/17/%E8%A3%85%E5%A4%87%E6%B8%85%E5%8D%95/</loc>
     
     <lastmod>2020-09-10</lastmod>
@@ -186,7 +193,7 @@
 
   <url>
     <loc>http://horsefaced.github.io/</loc>
-    <lastmod>2020-09-10</lastmod>
+    <lastmod>2020-09-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -194,49 +201,49 @@
   
   <url>
     <loc>http://horsefaced.github.io/tags/android/</loc>
-    <lastmod>2020-09-10</lastmod>
+    <lastmod>2020-09-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://horsefaced.github.io/tags/%E6%97%85%E8%A1%8C/</loc>
-    <lastmod>2020-09-10</lastmod>
+    <lastmod>2020-09-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://horsefaced.github.io/tags/%E5%8F%B0%E6%B9%BE/</loc>
-    <lastmod>2020-09-10</lastmod>
+    <lastmod>2020-09-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://horsefaced.github.io/tags/%E8%87%AA%E8%A1%8C%E8%BD%A6/</loc>
-    <lastmod>2020-09-10</lastmod>
+    <lastmod>2020-09-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://horsefaced.github.io/tags/cesium/</loc>
-    <lastmod>2020-09-10</lastmod>
+    <lastmod>2020-09-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://horsefaced.github.io/tags/%E6%88%B7%E5%A4%96/</loc>
-    <lastmod>2020-09-10</lastmod>
+    <lastmod>2020-09-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://horsefaced.github.io/tags/artemis-mqtt-program/</loc>
-    <lastmod>2020-09-10</lastmod>
+    <lastmod>2020-09-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -245,28 +252,28 @@
   
   <url>
     <loc>http://horsefaced.github.io/categories/android/</loc>
-    <lastmod>2020-09-10</lastmod>
+    <lastmod>2020-09-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://horsefaced.github.io/categories/%E6%88%B7%E5%A4%96/</loc>
-    <lastmod>2020-09-10</lastmod>
+    <lastmod>2020-09-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://horsefaced.github.io/categories/%E5%92%96%E5%95%A1/</loc>
-    <lastmod>2020-09-10</lastmod>
+    <lastmod>2020-09-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://horsefaced.github.io/categories/%E6%97%85%E8%A1%8C/</loc>
-    <lastmod>2020-09-10</lastmod>
+    <lastmod>2020-09-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
