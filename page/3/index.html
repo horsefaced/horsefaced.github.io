@@ -147,6 +147,93 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://horsefaced.github.io/2015/05/17/%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%E5%AE%89%E5%8D%93%E5%AD%97%E4%BD%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="马面">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大道废">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2015/05/17/%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%E5%AE%89%E5%8D%93%E5%AD%97%E4%BD%93/" class="post-title-link" itemprop="url">如何在android方便的修改字体</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2015-05-17 00:00:00" itemprop="dateCreated datePublished" datetime="2015-05-17T00:00:00+08:00">2015-05-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2017-10-11 21:10:15" itemprop="dateModified" datetime="2017-10-11T21:10:15+08:00">2017-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index"><span itemprop="name">android</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>android并没有提供一个一致性的统一的修改某个程序缺省字体的地方，于是网络上的方法：</p>
+<ol>
+<li>在某个activity上得到所有要修改字体的控件，然后一个个的去修改。</li>
+<li>自己实现所有要修改字体的控件的基础类，在这个类上去指定字体。</li>
+<li>实现一个枚举方法，把activity上所有的控件列出，然后自动设置它们的字体。</li>
+</ol>
+<p>这三个方法第一个实在太不体现智能了。而第二个是基本是在做死。第三个不错，我一开始也是使用这个方法的。但在实际使用中遇到了如果动态生成的控件，比如listview中由adapter生成的控件是无法在一开始就被枚举到，于是也就无法修改字体。如果放到onDraw里，是很不现实的会严重影响性能。如果放到adapter中的话，就与第一种或第二种没什么不同了，总不能每一个adapter都给个这个函数吧？如果自己生成一个BaseAdapter的话，那不其它类型的adapter就不能用了。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2015/05/17/%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%E5%AE%89%E5%8D%93%E5%AD%97%E4%BD%93/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="http://horsefaced.github.io/2015/05/17/%E5%A6%82%E4%BD%95%E5%9C%A8%E5%AE%89%E5%8D%93%E4%B8%8A%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E6%9C%89%E7%9B%B8%E6%9C%BA%E4%B8%8E%E5%BD%95%E9%9F%B3%E7%9A%84%E6%9D%83%E9%99%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -3286,7 +3373,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
