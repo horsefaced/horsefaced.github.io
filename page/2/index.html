@@ -147,6 +147,146 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://horsefaced.github.io/2018/04/16/cesium%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="马面">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大道废">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/04/16/cesium%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">cesium学习笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-04-16 17:01:44" itemprop="dateCreated datePublished" datetime="2018-04-16T17:01:44+08:00">2018-04-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2018-07-05 06:12:51" itemprop="dateModified" datetime="2018-07-05T06:12:51+08:00">2018-07-05</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="2018-05-28"><a href="#2018-05-28" class="headerlink" title="2018.05.28"></a>2018.05.28</h3><p>至少在Chrome浏览器中，Cesium 的  Double_Click 事件触发之前会触发两次 Click 事件，所以并不推荐使用 Double_Click 事件来处理操作</p>
+<h3 id="2018-05-21"><a href="#2018-05-21" class="headerlink" title="2018.05.21"></a>2018.05.21</h3><p>Geometry 不是地形的一部分，但 3DTileset 的 model 是</p>
+<p>Geometry的缺省boundingsphere 是整个地球</p>
+<p>Viewer.extend(Cesium.viewerCesium3DTilesInspectorMixin) 添加后会造成</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">viewer.screenSpaceEventHandler.setInputAction(<span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> picked = viewer.scene.pick(event.endPosition);</span><br><span class="line">        <span class="keyword">if</span> (picked !== prePicked) &#123;</span><br><span class="line">                <span class="keyword">if</span> (prePicked) prePicked.color = preStyle;</span><br><span class="line">                <span class="keyword">if</span> (picked) &#123;</span><br><span class="line">                        prePicked = picked, preStyle = picked.color;</span><br><span class="line">                        picked.color = Cesium.Color.YELLOW.withAlpha(<span class="number">0.5</span>);</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;, Cesium.ScreenSpaceEventType.MOUSE_MOVE);</span><br></pre></td></tr></table></figure>
+<p>这段代码出问题，它好像会改变 preStyle 的颜色</p>
+<h3 id="2018-05-14"><a href="#2018-05-14" class="headerlink" title="2018.05.14"></a>2018.05.14</h3><p><a target="_blank" rel="noopener" href="https://cesium.com/blog/2018/05/01/cesium-version-1.45-released/">https://cesium.com/blog/2018/05/01/cesium-version-1.45-released/</a></p>
+<p>测试线段长度</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> hierarchy = entity.polyline.positions._value;</span><br><span class="line">        hierarchy = Cesium.PolylinePipeline.generateArc(&#123;</span><br><span class="line">            positions: hierarchy,</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">let</span> vector = <span class="keyword">new</span> Cesium.Cartesian3();</span><br><span class="line">        <span class="keyword">let</span> distance = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">3</span>; i &lt; hierarchy.length; i += <span class="number">3</span>) &#123;</span><br><span class="line">            vector.x = hierarchy[i] - hierarchy[i - <span class="number">3</span>];</span><br><span class="line">            vector.y = hierarchy[i + <span class="number">1</span>] - hierarchy[i - <span class="number">2</span>];</span><br><span class="line">            vector.z = hierarchy[i + <span class="number">2</span>] - hierarchy[i - <span class="number">1</span>];</span><br><span class="line">            distance += Cesium.Cartesian3.magnitude(vector);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试polygon的面积</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Get the polygon from your &quot;entity&quot;</span></span><br><span class="line"><span class="keyword">var</span> polygon = theEntity.polygon;</span><br><span class="line"><span class="keyword">var</span> hierarchy = polygon.hierarchy._value;</span><br><span class="line"><span class="comment">// &quot;indices&quot; here defines an array, elements of which defines the indice of a vector</span></span><br><span class="line"><span class="comment">// defining one corner of a triangle. Add up the areas of those triangles to get</span></span><br><span class="line"><span class="comment">// an approximate area for the polygon</span></span><br><span class="line"><span class="keyword">var</span> indices = Cesium.PolygonPipeline.triangulate(hierarchy.positions, hierarchy.holes);</span><br><span class="line"><span class="keyword">var</span> area = <span class="number">0</span>; <span class="comment">// In square kilometers</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; indices.length; i += <span class="number">3</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> vector1 = hierarchy.positions[indices[i]];</span><br><span class="line">  <span class="keyword">var</span> vector2 = hierarchy.positions[indices[i+<span class="number">1</span>]];</span><br><span class="line">  <span class="keyword">var</span> vector3 = hierarchy.positions[indices[i+<span class="number">2</span>]];</span><br><span class="line">  <span class="comment">// These vectors define the sides of a parallelogram (double the size of the triangle)</span></span><br><span class="line">  <span class="keyword">var</span> vectorC = Cesium.Cartesian3.subtract(vector2, vector1, <span class="keyword">new</span> Cesium.Cartesian3());</span><br><span class="line">  <span class="keyword">var</span> vectorD = Cesium.Cartesian3.subtract(vector3, vector1, <span class="keyword">new</span> Cesium.Cartesian3());</span><br><span class="line">  <span class="comment">// Area of parallelogram is the cross product of the vectors defining its sides</span></span><br><span class="line">  <span class="keyword">var</span> areaVector = Cesium.Cartesian3.cross(vectorC, vectorD, <span class="keyword">new</span> Cesium.Cartesian3());</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// Area of the triangle is just half the area of the parallelogram, add it to the sum.</span></span><br><span class="line">  area += Cesium.Cartesian3.magnitude(areaVector)/<span class="number">2.0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>来自 <a target="_blank" rel="noopener" href="https://groups.google.com/forum/#!topic/cesium-dev/EimmL-poCDI">https://groups.google.com/forum/#!topic/cesium-dev/EimmL-poCDI</a> </p>
+<p>3DTileset不是一次性加入全部tile，所以要定位到某个tile，必须在外部保存tile的某个属性和它的位置地址，把视角平移过去后，在3DTileset加载完成后。才可以通过 3DTileset.tileVisible 找到有这个属性的 feature 然后着色，或者通过 Cesium3DTileStyle 着色。</p>
+<p>根据建筑物坐标与高度，定位并调整视角</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> long = <span class="number">-1.2917727072831369</span>, lat = <span class="number">0.7105749513910979</span>, height = <span class="number">547.7591871983744</span>;</span><br><span class="line"><span class="keyword">let</span> heading = viewer.camera.heading, pitch = viewer.camera.pitch;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> position = viewer.scene.globe.ellipsoid.cartographicToCartesian(<span class="keyword">new</span> Cesium.Cartographic(long, lat, <span class="number">0.5</span> * height));</span><br><span class="line"><span class="keyword">let</span> offset = offsetFromHeadingPitchRange(heading, pitch, height * <span class="number">2.0</span>);</span><br><span class="line"><span class="keyword">let</span> transform = Cesium.Transforms.eastNorthUpToFixedFrame(position);</span><br><span class="line">Cesium.Matrix4.multiplyByPoint(transform, offset, position);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">offsetFromHeadingPitchRange</span>(<span class="params">heading, pitch, range</span>) </span>&#123;</span><br><span class="line">            pitch = Cesium.Math.clamp(pitch, -Cesium.Math.PI_OVER_TWO, Cesium.Math.PI_OVER_TWO);</span><br><span class="line">            heading = Cesium.Math.zeroToTwoPi(heading) - Cesium.Math.PI_OVER_TWO;</span><br><span class="line">            <span class="keyword">var</span> pitchQuat = Cesium.Quaternion.fromAxisAngle(Cesium.Cartesian3.UNIT_Y, -pitch);</span><br><span class="line">            <span class="keyword">var</span> headingQuat = Cesium.Quaternion.fromAxisAngle(Cesium.Cartesian3.UNIT_Z, -heading);</span><br><span class="line">            <span class="keyword">var</span> rotQuat = Cesium.Quaternion.multiply(headingQuat, pitchQuat, headingQuat);</span><br><span class="line">            <span class="keyword">var</span> rotMatrix = Cesium.Matrix3.fromQuaternion(rotQuat);</span><br><span class="line">            <span class="keyword">var</span> offset = Cesium.Cartesian3.clone(Cesium.Cartesian3.UNIT_X);</span><br><span class="line">            Cesium.Matrix3.multiplyByVector(rotMatrix, offset, offset);</span><br><span class="line">            Cesium.Cartesian3.negate(offset, offset);</span><br><span class="line">            Cesium.Cartesian3.multiplyByScalar(offset, range, offset);</span><br><span class="line">            <span class="keyword">return</span> offset;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>例子：<br><a target="_blank" rel="noopener" href="http://www.virtualcitysystems.de/en/">http://www.virtualcitysystems.de/en/</a></p>
+<p><a target="_blank" rel="noopener" href="http://nrw.virtualcitymap.de/#/">http://nrw.virtualcitymap.de/#/</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.3dcitydb.net/3dcitydb/fileadmin/3DWebClient/index.html">http://www.3dcitydb.net/3dcitydb/fileadmin/3DWebClient/index.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://cesiumjs.org/demos/">https://cesiumjs.org/demos/</a></p>
+<p><a target="_blank" rel="noopener" href="http://cybercity3d.s3-website-us-east-1.amazonaws.com/?city=WashingtonDC">http://cybercity3d.s3-website-us-east-1.amazonaws.com/?city=WashingtonDC</a></p>
+<h3 id="2018-05-08"><a href="#2018-05-08" class="headerlink" title="2018.05.08"></a>2018.05.08</h3><p>设置Home的位置</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Cesium.Camera.DEFAULT_VIEW_FACTOR = <span class="number">-0.3</span>;</span><br><span class="line">Cesium.Camera.DEFAULT_VIEW_RECTANGLE = tileset._root._boundingVolume.rectangle;</span><br></pre></td></tr></table></figure>
+
+<p>Camera.lookAt 会锁住 camera 的视点，让鼠标不能移动 camera，需要 viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY)</p>
+<p>距离 3DTileset 1.5倍 boundingSpere.radius，<br>高度为 1.5 * distance / Math.tan(Cesium.Math.toRadians(70.0)），<br>heading: Cesium.Math.toRadians(0.0),<br>pitch: Cesium.Math.toRadians(-20.0),<br>roll: 0.0,<br>时候，角度比较好</p>
+<p>通过 Camera.pickEllipsoid 得到的坐标是 WGS84 坐标系下的，在有地形信息的情况下就会偏移，就算通过 sampleTerrianMostDetailed 转化过也一样</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> coordinate = viewer.camera.pickEllipsoid(event.position, viewer.scene.globe.ellipsoid);</span><br><span class="line">coordinate = Cesium.Cartographic.fromCartesian(coordinate);</span><br><span class="line">Cesium.sampleTerrainMostDetailed(viewer.terrainProvider, [coordinate]).then(<span class="function">(<span class="params">samples</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> sample <span class="keyword">of</span> samples) sample.height += <span class="number">10.0</span>;</span><br><span class="line">            viewer.entities.add(&#123;</span><br><span class="line">                position: Cesium.Cartographic.toCartesian(samples[<span class="number">0</span>], viewer.scene.globe.ellipsoid),</span><br><span class="line">                point: &#123;</span><br><span class="line">                    pixelSize: <span class="number">5</span>,</span><br><span class="line">                    color: Cesium.Color.GREEN,</span><br><span class="line">                    heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,</span><br><span class="line">                &#125;,</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>通过下面这个 Ray 相交得到的坐标是可以有地形高度的，取决于得到是有没有加载地形信息，如果有则有高度信息，没有就没有</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> ray = viewer.camera.getPickRay(event.position);</span><br><span class="line">        <span class="keyword">let</span> positon = viewer.scene.globe.pick(ray, viewer.scene);</span><br><span class="line">        viewer.entities.add(&#123;</span><br><span class="line">            position: positon,</span><br><span class="line">            point: &#123;</span><br><span class="line">                pixelSize: <span class="number">5</span>,</span><br><span class="line">                color: Cesium.Color.LIME,     </span><br><span class="line">                heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,       </span><br><span class="line">            &#125;,</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>screenSpaceEventHandler.setInputAction 居然一个类型只可以有一个事件监听</p>
+<p>得到两点方向的代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Add button to View Aircraft at a Fixed Angle relative to aircraft</span></span><br><span class="line">Sandcastle.addToolbarButton(<span class="string">&#x27;View Aircraft Fixed Angle&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    viewer.trackedEntity = <span class="literal">undefined</span>;</span><br><span class="line">    viewer.clock.onTick.addEventListener(<span class="function"><span class="keyword">function</span> (<span class="params">clock</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//get 2 positions close together timewise</span></span><br><span class="line">        <span class="keyword">var</span> CC3 = Cesium.Cartesian3;</span><br><span class="line">        <span class="keyword">var</span> position1 = entity.position.getValue(clock.currentTime, <span class="keyword">new</span> CC3());</span><br><span class="line">        <span class="keyword">var</span> position2 = entity.position.getValue(Cesium.JulianDate.addSeconds(clock.currentTime, <span class="number">1</span> / <span class="number">60</span>, <span class="keyword">new</span> Cesium.JulianDate()), <span class="keyword">new</span> CC3());</span><br><span class="line"></span><br><span class="line">        <span class="comment">//velocity in terms of Earth Fixed        </span></span><br><span class="line">        <span class="keyword">var</span> Wvelocity = CC3.subtract(position2, position1, <span class="keyword">new</span> CC3());</span><br><span class="line">        CC3.normalize(Wvelocity, Wvelocity);</span><br><span class="line">        <span class="keyword">var</span> Wup = <span class="keyword">new</span> CC3(); <span class="keyword">var</span> Weast = <span class="keyword">new</span> CC3(); <span class="keyword">var</span> Wnorth = <span class="keyword">new</span> CC3();</span><br><span class="line">        Cesium.Ellipsoid.WGS84.geodeticSurfaceNormal(position1, Wup);</span><br><span class="line">        CC3.cross(&#123; <span class="attr">x</span>: <span class="number">0</span>, <span class="attr">y</span>: <span class="number">0</span>, <span class="attr">z</span>: <span class="number">1</span> &#125;, Wup, Weast);</span><br><span class="line">        CC3.cross(Wup, Weast, Wnorth);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//velocity in terms of local ENU</span></span><br><span class="line">        <span class="keyword">var</span> Lvelocity = <span class="keyword">new</span> CC3();</span><br><span class="line">        Lvelocity.x = CC3.dot(Wvelocity, Weast);</span><br><span class="line">        Lvelocity.y = CC3.dot(Wvelocity, Wnorth);</span><br><span class="line">        Lvelocity.z = CC3.dot(Wvelocity, Wup);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//angle of travel</span></span><br><span class="line">        <span class="keyword">var</span> Lup = <span class="keyword">new</span> CC3(<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>); <span class="keyword">var</span> Least = <span class="keyword">new</span> CC3(<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>); <span class="keyword">var</span> Lnorth = <span class="keyword">new</span> CC3(<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">var</span> x = CC3.dot(Lvelocity, Least);</span><br><span class="line">        <span class="keyword">var</span> y = CC3.dot(Lvelocity, Lnorth);</span><br><span class="line">        <span class="keyword">var</span> z = CC3.dot(Lvelocity, Lup);</span><br><span class="line">        <span class="keyword">var</span> angle = <span class="built_in">Math</span>.atan2(x, y);<span class="comment">//math: y b4 x, heading: x b4 y</span></span><br><span class="line">        <span class="keyword">var</span> pitch = <span class="built_in">Math</span>.asin(z);<span class="comment">//make sure Lvelocity is unitized</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//angles offsets</span></span><br><span class="line">        angle += <span class="number">0</span> / <span class="number">180</span> * <span class="built_in">Math</span>.PI;</span><br><span class="line">        pitch += <span class="number">-20</span> / <span class="number">180</span> * <span class="built_in">Math</span>.PI;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> range = <span class="number">80</span>;</span><br><span class="line">        <span class="keyword">var</span> offset = <span class="keyword">new</span> Cesium.HeadingPitchRange(angle, pitch, range);</span><br><span class="line">        viewer.scene.camera.lookAt(entity.position.getValue(clock.currentTime), offset);</span><br><span class="line">    &#125;); <span class="comment">//end event listener</span></span><br><span class="line">&#125;); <span class="comment">//end button</span></span><br></pre></td></tr></table></figure>
+
+<p>orientation : new Cesium.VelocityOrientationProperty(position) 可以得到某点的方向，但 position 需要是 Cesium.SampledProperty 根据时间的采样属性</p>
+<h3 id="2018-05-07"><a href="#2018-05-07" class="headerlink" title="2018.05.07"></a>2018.05.07</h3><p>Globe 上的 ClippingPlane 定一个法向量就可以了，distance是相对与 ClippingPlaneCollection 的 ModelMatrix 的，它是以笛卡尔坐标系的中心建立了一个穿过整个坐标系的平面组，所以会在地球表面形成两个相对的切面。</p>
+<p>如何计算一个离某个点距离为 radius 的圆的坐标：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> n = <span class="number">180</span>, points = [];</span><br><span class="line"><span class="keyword">let</span> center = tileset.boundingSphere.center, radius = tileset.boundingSphere.radius;</span><br><span class="line"><span class="keyword">let</span> R = viewer.scene.globe.ellipsoid.maximumRadius; <span class="comment">//地球半径</span></span><br><span class="line">center = Cesium.Cartographic.fromCartesian(center); <span class="comment">//转成经纬度坐标</span></span><br><span class="line"><span class="comment">//latB = latA-((radius * Math.sin(Math.PI * i / n)) * 180) / (Math.PI * ellipsoid.R)</span></span><br><span class="line"><span class="comment">//latB = LatA-(Y*180)/(Math.PI * e)</span></span><br><span class="line"><span class="comment">//loB = loA - ((rdius * Math.cost(Math.PI * i / n)) * 180) / (Math.PI * ellipsoid.R * Math.cos((LatA + LatB) / 2))</span></span><br><span class="line"><span class="comment">//loB = loA - (x*180)/(math.pi * r * cost((latA + latB) / 2))</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = -n; i &lt;= n; i++) &#123;</span><br><span class="line">    <span class="keyword">let</span> x = <span class="built_in">Math</span>.cos(<span class="built_in">Math</span>.PI * i / n) * radius;</span><br><span class="line">    <span class="keyword">let</span> y = <span class="built_in">Math</span>.sin(<span class="built_in">Math</span>.PI * i / n) * radius;</span><br><span class="line">    <span class="comment">//let LatB = center.latitude - (y * 180) / (Math.PI * R);</span></span><br><span class="line">    <span class="keyword">let</span> LatB = center.latitude - (y / R);</span><br><span class="line">    <span class="comment">//let LonB = center.longitude - (x * 180) / (Math.PI * R * Math.cos((center.latitude + LatB) / 2));</span></span><br><span class="line">    <span class="keyword">let</span> LonB = center.longitude - (x / (R * <span class="built_in">Math</span>.cos((center.latitude + LatB) / <span class="number">2</span>)));</span><br><span class="line">    <span class="keyword">let</span> point = <span class="keyword">new</span> Cesium.Cartographic(LonB, LatB);</span><br><span class="line">    point = viewer.scene.globe.ellipsoid.cartographicToCartesian(point);</span><br><span class="line">    points.push(point);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个是不精确的版本，在小范围误差可接受，参考自<a target="_blank" rel="noopener" href="https://tech.meituan.com/lucene-distance.html">地理空间距离计算优化</a></p>
+<p>Polyline 这个 Geometry 不支持 heightReference，于是不会自动贴地。必须通过 Cesium.sampleTerrainMostDetailed 这个方法吧 positions 中的点进行高度调整，其中 pointsR 为高度为零的 Cartographic 对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Cesium.when(Cesium.sampleTerrainMostDetailed(viewer.terrainProvider, pointsR), <span class="function">(<span class="params">samples</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> sample <span class="keyword">of</span> samples) sample.height += <span class="number">10.0</span>;</span><br><span class="line">    viewer.entities.add(&#123;</span><br><span class="line">        polyline: &#123;</span><br><span class="line">            positions: Cesium.Ellipsoid.WGS84.cartographicArrayToCartesianArray(samples),</span><br><span class="line">            width: <span class="number">5</span>,</span><br><span class="line">            material: Cesium.Color.WHITE,</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="2018-05-03"><a href="#2018-05-03" class="headerlink" title="2018.05.03"></a>2018.05.03</h3><p>不支持 KHR_materials_pbrSpecularGlossiness </p>
+<p>Entity 保存了 Graphic<br>Graphic 保存 Geometry 对象的描述属性，但没有定义怎么画出这个对象</p>
+<p>Billboard:</p>
+<p>Billboard</p>
+<ul>
+<li>@performance Reading a property, e.g., {@link Billboard#show}, is constant time.</li>
+<li>Assigning to a property is constant time but results in</li>
+<li>CPU to GPU traffic when {@link BillboardCollection#update} is called. The per-billboard traffic is</li>
+<li>the same regardless of how many properties were updated. If most billboards in a collection need to be</li>
+<li>updated, it may be more efficient to clear the collection with {@link BillboardCollection#removeAll}</li>
+<li>and add new billboards instead of modifying each one.<br>照这么说来，当 BillboardCollection.update 的时候才会处理成 GPU 的数据发送至 GPU</li>
+</ul>
+<p>BillboradGraphics<br>BillboardGraphicsSpec</p>
+<p>BillboardCollection<br>BillboardCollectionSpec</p>
+<p>BillboardVisualizer<br>BillboardVisualizerSpec</p>
+<p>BillboardCollectionFS.glsl<br>BillboardCollectionVS.glsl</p>
+<p>createBillboardPointCallback </p>
+<p>Entity 不指定方向的情况下用 eastNorthUpToFixedFrame</p>
+<h3 id="2018-04-27"><a href="#2018-04-27" class="headerlink" title="2018.04.27"></a>2018.04.27</h3><p>Cesium 画geometry的效率<br>Billboard 》polyline &gt; box = plane 》 polygon(不带挤压高度) &gt; polygon(带挤压高度) </p>
+<p>一万个 ellipse ellipsoid cylinder corrdior 会有内存不足的问题</p>
+<p>画一个带指示线的标签</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> viewer = <span class="keyword">new</span> Cesium.Viewer(<span class="string">&#x27;cesiumContainer&#x27;</span>,</span><br><span class="line">                               &#123;<span class="attr">timeline</span>: <span class="literal">false</span>, <span class="attr">animation</span>: <span class="literal">false</span>&#125;);</span><br><span class="line"><span class="keyword">var</span> scene = viewer.scene;</span><br><span class="line"><span class="keyword">var</span> offsetX = <span class="number">50</span>, offsetY = <span class="number">-80</span>;</span><br><span class="line"><span class="keyword">var</span> pos = Cesium.Cartesian3.fromDegrees(<span class="number">-75.1641667</span>, <span class="number">29.9522222</span>);</span><br><span class="line"><span class="keyword">var</span> labels = scene.primitives.add(<span class="keyword">new</span> Cesium.LabelCollection());</span><br><span class="line">labels.add(&#123;</span><br><span class="line">    position: pos,</span><br><span class="line">    text: <span class="string">&#x27;Another label&#x27;</span>,</span><br><span class="line">    pixelOffset: <span class="keyword">new</span> Cesium.Cartesian2(offsetX, offsetY)</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.createElement(<span class="string">&#x27;canvas&#x27;</span>);</span><br><span class="line">canvas.width = <span class="built_in">Math</span>.abs(offsetX);</span><br><span class="line">canvas.height = <span class="built_in">Math</span>.abs(offsetY);</span><br><span class="line"><span class="keyword">var</span> context2D = canvas.getContext(<span class="string">&#x27;2d&#x27;</span>);</span><br><span class="line">context2D.beginPath();</span><br><span class="line">context2D.lineWidth = <span class="number">3</span>;</span><br><span class="line">context2D.strokeStyle = <span class="string">&#x27;#ffffff&#x27;</span>;</span><br><span class="line">context2D.moveTo((offsetX &lt; <span class="number">0</span>) ? -offsetX : <span class="number">0</span>, (offsetY &lt; <span class="number">0</span>) ? -offsetY : <span class="number">0</span>);</span><br><span class="line">context2D.lineTo((offsetX &lt; <span class="number">0</span>) ? <span class="number">0</span> : offsetX, (offsetY &lt; <span class="number">0</span>) ? <span class="number">0</span> : offsetY);</span><br><span class="line">context2D.stroke();</span><br><span class="line"><span class="keyword">var</span> billboards = scene.primitives.add(<span class="keyword">new</span> Cesium.BillboardCollection());</span><br><span class="line"><span class="keyword">var</span> billboard = billboards.add(&#123;</span><br><span class="line">    color : Cesium.Color.RED,</span><br><span class="line">    image : canvas,</span><br><span class="line">    pixelOffset: <span class="keyword">new</span> Cesium.Cartesian2(offsetX * <span class="number">0.5</span>, offsetY * <span class="number">0.5</span>),</span><br><span class="line">    position : pos</span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/32716118/cesium-js-how-draw-line-binding-a-label-to-a-position">https://stackoverflow.com/questions/32716118/cesium-js-how-draw-line-binding-a-label-to-a-position</a></p>
+<h3 id="2018-04-26"><a href="#2018-04-26" class="headerlink" title="2018.04.26"></a>2018.04.26</h3><p>Primitive 对象有定点着色器与片元着色器的源代码入口</p>
+<p>Viewer.scene.drillPick 返回的 pickedObjects 数组对象<br>pickedObject.id 为 entity<br>pickedObject.primitive 为相应的 primitive 对象</p>
+<p>添加X,Y,Z三轴线</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> modelMatrix = Cesium.Transforms.headingPitchRollToFixedFrame(position, hprRollZero, Cesium.Ellipsoid.WGS84, converter);</span><br><span class="line">    scene.primitives.add(<span class="keyword">new</span> Cesium.DebugModelMatrixPrimitive(&#123;</span><br><span class="line">        modelMatrix : modelMatrix,</span><br><span class="line">        length : <span class="number">300.0</span>,</span><br><span class="line">        width : <span class="number">10.0</span></span><br><span class="line">    &#125;));</span><br></pre></td></tr></table></figure>
+<h3 id="2018-04-24"><a href="#2018-04-24" class="headerlink" title="2018.04.24"></a>2018.04.24</h3><p>Geometry画出来的图形是以地球坐标系来画的， Model是以模型自身的坐标系来画的，3DTileset是以地球坐标系来画的</p>
+<p>3DTileset.debugWireframe可以显示骨架</p>
+<h3 id="2018-04-16"><a href="#2018-04-16" class="headerlink" title="2018.04.16"></a>2018.04.16</h3><p>Cesium Pick有BUG，它是根据3DTiles的boundingSphere加上geometryError来确定模型占地面积，由maximumHeight的两倍来确定模型的高度。模型在这个范围内浮动，不会有明显的问题，超出这个范围就会有点选不中，显示异常的问题。</p>
+<p>3DTileset的modelMatrix是整个set共用的，pickedFeature里的</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="http://horsefaced.github.io/2018/03/06/porlex-mini-%E8%B0%83%E8%B1%86%E5%AD%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1397,92 +1537,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://horsefaced.github.io/2017/03/07/%E5%93%A5%E4%BC%A6%E6%AF%94%E4%BA%9A%E6%B0%B4%E6%B4%97Supremo/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="马面">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="大道废">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/03/07/%E5%93%A5%E4%BC%A6%E6%AF%94%E4%BA%9A%E6%B0%B4%E6%B4%97Supremo/" class="post-title-link" itemprop="url">哥伦比亚水洗Supremo</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2017-03-07 00:00:00" itemprop="dateCreated datePublished" datetime="2017-03-07T00:00:00+08:00">2017-03-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-23 19:34:15" itemprop="dateModified" datetime="2020-09-23T19:34:15+08:00">2020-09-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%92%96%E5%95%A1/" itemprop="url" rel="index"><span itemprop="name">咖啡</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="大恕家麦芽糖串串"><a href="#大恕家麦芽糖串串" class="headerlink" title="大恕家麦芽糖串串"></a>大恕家麦芽糖串串</h2><p><img src="/images/cafe/%E5%A4%A7%E6%81%95%E5%AE%B6%E7%9A%84%E5%93%A5%E4%BC%A6%E6%AF%94%E4%BA%9A%E8%B1%86%E8%A2%8B%E6%AD%A3%E9%9D%A2.png" alt="豆袋下面"></p>
-<blockquote>
-<p>哥伦比亚水洗Supremo</p>
-<p>卡杜拉种，麦德林，海拔1550-1700，中烘</p>
-<p>可能尝到的味道：麦芽糖、蜜饯、杏子</p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/03/07/%E5%93%A5%E4%BC%A6%E6%AF%94%E4%BA%9A%E6%B0%B4%E6%B4%97Supremo/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1552,7 +1606,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">30</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1562,7 +1616,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
